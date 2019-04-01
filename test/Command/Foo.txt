@@ -1,0 +1,110 @@
+<?php
+declare(strict_types=1);
+
+namespace SetBased\Stratum\Test\Application;
+
+use SetBased\Abc\ExceptionHandler\ExceptionHandler;
+
+/**
+ * Concrete implementation of the exception handler.
+ */
+class Foo implements ExceptionHandler
+{
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * @inheritdoc
+   */
+  public function handlePrepareException(\Throwable $exception): void
+  {
+    switch (true)
+    {
+      case is_a($exception, 'Throwable'):
+        /** @var \Throwable $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler->handlePrepareException($exception);
+        break;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * @inheritdoc
+   */
+  public function handleConstructException(\Throwable $exception): void
+  {
+    switch (true)
+    {
+      case is_a($exception, 'SetBased\Stratum\Exception\ResultException'):
+        /** @var \SetBased\Stratum\Exception\ResultException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\ResultExceptionAgent();
+        $handler->handleConstructException($exception);
+        break;
+
+      case is_a($exception, 'Throwable'):
+        /** @var \Throwable $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler->handleConstructException($exception);
+        break;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * @inheritdoc
+   */
+  public function handleResponseException(\Throwable $exception): void
+  {
+    switch (true)
+    {
+      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
+        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+        $handler->handleResponseException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
+        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+        $handler->handleResponseException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
+        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
+        $handler->handleResponseException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\NotPreferredUrlException'):
+        /** @var \SetBased\Abc\Exception\NotPreferredUrlException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\NotPreferredUrlExceptionAgent();
+        $handler->handleResponseException($exception);
+        break;
+
+      case is_a($exception, 'Throwable'):
+        /** @var \Throwable $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler->handleResponseException($exception);
+        break;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * @inheritdoc
+   */
+  public function handleFinalizeException(\Throwable $exception): void
+  {
+    switch (true)
+    {
+      case is_a($exception, 'Throwable'):
+        /** @var \Throwable $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler->handleFinalizeException($exception);
+        break;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+}
+
+//----------------------------------------------------------------------------------------------------------------------

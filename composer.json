@@ -1,0 +1,38 @@
+{
+  "name": "setbased/abc-exception-handler-core",
+  "description": "ABC-Framework: Core Exception Handler",
+  "keywords": [
+    "ABC-Framework",
+    "Exception",
+    "Handling",
+    "Core"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "composer/composer": "^1.0.0",
+    "setbased/abc": "*",
+    "setbased/abc-http-header": "^2.0.2",
+    "setbased/abc-exception": "^1.1.0",
+    "setbased/abc-exception-handler": "*",
+    "setbased/helper-code-store-php": "^2.1.1",
+    "setbased/php-stratum": "*",
+    "symfony/console": "^3.0.0 || ^4.0.0"
+  },
+  "require-dev": {
+    "phing/phing": "^2.0.0",
+    "phpunit/phpunit": "^7.0.0 || ^8.0.0",
+    "setbased/abc-console": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SetBased\\Abc\\ExceptionHandler\\": "src/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}

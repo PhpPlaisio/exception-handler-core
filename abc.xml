@@ -1,0 +1,5 @@
+<abc>
+    <commands>
+        <command name="abc:generate-core-exception-handler">\SetBased\Abc\ExceptionHandler\Command\GenerateExceptionHandlerCommand</command>
+    </commands>
+</abc>
