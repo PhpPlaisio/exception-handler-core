@@ -17,7 +17,7 @@
     "setbased/abc": "*",
     "setbased/abc-http-header": "^2.0.2",
     "setbased/abc-exception": "^1.1.0",
-    "setbased/abc-exception-handler": "*",
+    "setbased/abc-exception-handler": "^1.0.0",
     "setbased/helper-code-store-php": "^2.1.1",
     "setbased/php-stratum": "*",
     "symfony/console": "^3.0.0 || ^4.0.0"
