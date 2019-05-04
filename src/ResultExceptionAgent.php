@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SetBased\Abc\ExceptionHandler;
 
 use SetBased\Abc\Abc;
-use SetBased\Abc\Exception\InvalidUrlException;
+use SetBased\Abc\Helper\HttpHeader;
 use SetBased\Stratum\Exception\ResultException;
 
 /**
@@ -23,11 +23,21 @@ class ResultExceptionAgent
    */
   public function handleConstructException(ResultException $exception): void
   {
-    // On a development environment rethrow the exception.
-    if (Abc::$request->isEnvDev()) throw $exception;
+    Abc::$DL->rollback();
 
-    // A ResultException during the construction of a page object is (almost) always caused by an invalid URL.
-    throw new InvalidUrlException([$exception], 'No data found');
+    // Set the HTTP status to 404 (Not Found).
+    HttpHeader::clientErrorNotFound();
+
+    // Log the invalid URL request.
+    Abc::$requestLogger->logRequest(HttpHeader::$status);
+    Abc::$DL->commit();
+
+    // On a development environment log the exception.
+    if (Abc::$request->isEnvDev())
+    {
+      $logger = Abc::$abc->getErrorLogger();
+      $logger->logError($exception);
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------

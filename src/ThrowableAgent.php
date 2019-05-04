@@ -59,6 +59,10 @@ class ThrowableAgent
     // Set the HTTP status to 500 (Internal Server Error).
     HttpHeader::serverErrorInternalServerError();
 
+    // Log the Internal Server Error
+    Abc::$requestLogger->logRequest(HttpHeader::$status);
+    Abc::$DL->commit();
+
     $logger = Abc::$abc->getErrorLogger();
     $logger->logError($throwable);
   }

@@ -18,6 +18,24 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
+      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
+        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+        $handler->handlePrepareException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
+        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+        $handler->handlePrepareException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
+        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
+        $handler->handlePrepareException($exception);
+        break;
+
       case is_a($exception, 'Throwable'):
         /** @var \Throwable $exception */
         $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();

@@ -27,6 +27,10 @@ class NotPreferredUrlExceptionAgent
 
     // Redirect the user agent to the preferred URL.
     HttpHeader::redirectMovedPermanently($exception->preferredUri);
+
+    // Log the not preferred request.
+    Abc::$requestLogger->logRequest(HttpHeader::$status);
+    Abc::$DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
