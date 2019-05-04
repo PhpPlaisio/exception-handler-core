@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SetBased\Abc\ExceptionHandler\Command;
 
@@ -34,7 +35,6 @@ class GenerateExceptionHandlerCommand extends Command
   private $io;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * @inheritdoc
    */
