@@ -14,6 +14,20 @@ class InvalidUrlExceptionAgent
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Handles a InvalidUrlException thrown in the constructor of a page object.
+   *
+   * @param InvalidUrlException $exception The exception.
+   *
+   * @since 1.0.0
+   * @api
+   */
+  public function handleConstructException(InvalidUrlException $exception): void
+  {
+    $this->handleException($exception);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Handles an InvalidUrlException thrown during generating the response by a page object.
    *
    * @param InvalidUrlException $exception The exception.
