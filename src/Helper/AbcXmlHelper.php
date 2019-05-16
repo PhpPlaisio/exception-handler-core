@@ -65,7 +65,7 @@ class AbcXmlHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the class name and the path of he generated exception handler.
+   * Returns the class name and the path of the generated exception handler.
    *
    * @return string[]
    */
