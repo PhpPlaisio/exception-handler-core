@@ -52,9 +52,21 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
+      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
+        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+        $handler->handleConstructException($exception);
+        break;
+
       case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
         /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
         $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+        $handler->handleConstructException($exception);
+        break;
+
+      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
+        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 

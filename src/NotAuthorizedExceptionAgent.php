@@ -14,6 +14,20 @@ class NotAuthorizedExceptionAgent
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Handles a NotAuthorizedException thrown in the constructor of a page object.
+   *
+   * @param NotAuthorizedException $exception The exception.
+   *
+   * @since 1.0.0
+   * @api
+   */
+  public function handleConstructException(NotAuthorizedException $exception): void
+  {
+    $this->handleException($exception);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Handles a NotAuthorizedException thrown during the preparation phase.
    *
    * @param NotAuthorizedException $exception The exception.

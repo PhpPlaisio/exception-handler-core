@@ -24,14 +24,21 @@ class ThrowableAgent
    */
   public function handleConstructException(\Throwable $throwable): void
   {
+    $this->handleException($throwable);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Handles a NotAuthorizedException thrown during finalizing the response.
+   *
+   * @param \Throwable $throwable The throwable.
+   *
+   * @since 1.0.0
+   * @api
+   */
+  public function handleFinalizeException(\Throwable $throwable): void
+  {
     Abc::$DL->rollback();
-
-    // Set the HTTP status to 500 (Internal Server Error).
-    HttpHeader::serverErrorInternalServerError();
-
-    // Log the Internal Server Error
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
 
     $logger = Abc::$abc->getErrorLogger();
     $logger->logError($throwable);
@@ -50,7 +57,7 @@ class ThrowableAgent
    */
   public function handlePrepareException(\Throwable $throwable): void
   {
-    throw $throwable;
+    $this->handleException($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -64,6 +71,13 @@ class ThrowableAgent
    */
   public function handleResponseException(\Throwable $throwable): void
   {
+    $this->handleException($throwable);
+  }
+  /**
+   * @param \Throwable $throwable
+   */
+  private function handleException(\Throwable $throwable): void
+  {
     Abc::$DL->rollback();
 
     // Set the HTTP status to 500 (Internal Server Error).
@@ -72,23 +86,6 @@ class ThrowableAgent
     // Log the Internal Server Error
     Abc::$requestLogger->logRequest(HttpHeader::$status);
     Abc::$DL->commit();
-
-    $logger = Abc::$abc->getErrorLogger();
-    $logger->logError($throwable);
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Handles a NotAuthorizedException thrown during finalizing the response.
-   *
-   * @param \Throwable $throwable The throwable.
-   *
-   * @since 1.0.0
-   * @api
-   */
-  public function handleFinalizeException(\Throwable $throwable): void
-  {
-    Abc::$DL->rollback();
 
     $logger = Abc::$abc->getErrorLogger();
     $logger->logError($throwable);

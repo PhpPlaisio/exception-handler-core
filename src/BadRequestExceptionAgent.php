@@ -14,6 +14,20 @@ class BadRequestExceptionAgent
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Handles a InvalidUrlException thrown in the constructor of a page object.
+   *
+   * @param BadRequestException $exception The exception.
+   *
+   * @since 1.0.0
+   * @api
+   */
+  public function handleConstructException(BadRequestException $exception): void
+  {
+    $this->handleException($exception);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Handles a BadRequestException thrown during the preparation phase.
    *
    * @param BadRequestException $exception The exception.
@@ -23,17 +37,7 @@ class BadRequestExceptionAgent
    */
   public function handlePrepareException(BadRequestException $exception): void
   {
-    Abc::$DL->rollback();
-
-    // Set the HTTP status to 400 (Bad Request).
-    HttpHeader::clientErrorBadRequest();
-
-    // Only on development environment log the error.
-    if (Abc::$request->isEnvDev())
-    {
-      $logger = Abc::$abc->getErrorLogger();
-      $logger->logError($exception);
-    }
+    $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -46,6 +50,17 @@ class BadRequestExceptionAgent
    * @api
    */
   public function handleResponseException(BadRequestException $exception): void
+  {
+    $this->handleException($exception);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Handles an BadRequestException.
+   *
+   * @param BadRequestException $exception The exception.
+   */
+  private function handleException(BadRequestException $exception): void
   {
     Abc::$DL->rollback();
 
