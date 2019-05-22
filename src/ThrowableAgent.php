@@ -24,7 +24,17 @@ class ThrowableAgent
    */
   public function handleConstructException(\Throwable $throwable): void
   {
-    throw $throwable;
+    Abc::$DL->rollback();
+
+    // Set the HTTP status to 500 (Internal Server Error).
+    HttpHeader::serverErrorInternalServerError();
+
+    // Log the Internal Server Error
+    Abc::$requestLogger->logRequest(HttpHeader::$status);
+    Abc::$DL->commit();
+
+    $logger = Abc::$abc->getErrorLogger();
+    $logger->logError($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -78,6 +88,8 @@ class ThrowableAgent
    */
   public function handleFinalizeException(\Throwable $throwable): void
   {
+    Abc::$DL->rollback();
+
     $logger = Abc::$abc->getErrorLogger();
     $logger->logError($throwable);
   }
