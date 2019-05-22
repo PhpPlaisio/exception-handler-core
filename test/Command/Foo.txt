@@ -52,6 +52,12 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
+      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
+        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
+        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+        $handler->handleConstructException($exception);
+        break;
+
       case is_a($exception, 'SetBased\Stratum\Exception\ResultException'):
         /** @var \SetBased\Stratum\Exception\ResultException $exception */
         $handler = new \SetBased\Abc\ExceptionHandler\ResultExceptionAgent();
