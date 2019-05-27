@@ -17,8 +17,6 @@ class ThrowableAgent
    *
    * @param \Throwable $throwable The throwable.
    *
-   * @throws \Throwable
-   *
    * @since 1.0.0
    * @api
    */
@@ -50,8 +48,6 @@ class ThrowableAgent
    *
    * @param \Throwable $throwable The throwable.
    *
-   * @throws \Throwable
-   *
    * @since 1.0.0
    * @api
    */
@@ -73,8 +69,12 @@ class ThrowableAgent
   {
     $this->handleException($throwable);
   }
+
+  //--------------------------------------------------------------------------------------------------------------------
   /**
-   * @param \Throwable $throwable
+   * Handles a Throwable.
+   *
+   * @param \Throwable $throwable The throwable.
    */
   private function handleException(\Throwable $throwable): void
   {
