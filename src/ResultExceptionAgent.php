@@ -5,7 +5,7 @@ namespace SetBased\Abc\ExceptionHandler;
 
 use SetBased\Abc\Abc;
 use SetBased\Abc\Helper\HttpHeader;
-use SetBased\Stratum\Exception\ResultException;
+use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
  * An agent that handles ResultException exceptions.

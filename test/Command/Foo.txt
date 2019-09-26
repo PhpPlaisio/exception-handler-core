@@ -70,8 +70,8 @@ class Foo implements ExceptionHandler
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Stratum\Exception\ResultException'):
-        /** @var \SetBased\Stratum\Exception\ResultException $exception */
+      case is_a($exception, 'SetBased\Stratum\Middle\Exception\ResultException'):
+        /** @var \SetBased\Stratum\Middle\Exception\ResultException $exception */
         $handler = new \SetBased\Abc\ExceptionHandler\ResultExceptionAgent();
         $handler->handleConstructException($exception);
         break;
