@@ -16,11 +16,11 @@
     "composer/composer": "^1.0.0",
     "setbased/abc": "*",
     "setbased/abc-http-header": "^2.0.2",
-    "setbased/abc-exception": "^1.1.0",
+    "setbased/abc-exception": "^2.0.0",
     "setbased/abc-exception-handler": "^1.0.0",
     "setbased/helper-code-store-php": "^2.1.1",
     "setbased/php-stratum-middle": "^5.0.0",
-    "symfony/console": "^3.0.0 || ^4.0.0"
+    "symfony/console": "^4.0.0"
   },
   "require-dev": {
     "phing/phing": "^2.0.0",
