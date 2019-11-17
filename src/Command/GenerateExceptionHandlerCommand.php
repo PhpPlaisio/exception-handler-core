@@ -42,7 +42,7 @@ class GenerateExceptionHandlerCommand extends Command
   {
     $this->setName('plaisio:generate-core-exception-handler')
          ->setDescription('Generates the code for the core\'s exception handler')
-         ->addArgument('config file', InputArgument::OPTIONAL, 'The abc.xml configuration file', 'abc.xml');
+         ->addArgument('config file', InputArgument::OPTIONAL, 'The plaisio.xml configuration file', 'plaisio.xml');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
