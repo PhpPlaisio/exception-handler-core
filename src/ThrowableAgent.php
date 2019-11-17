@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\InternalServerErrorResponse;
 
 /**
  * An agent that handles \Throwable exceptions.
@@ -27,7 +27,7 @@ class ThrowableAgent
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles a NotAuthorizedException thrown during finalizing the response.
+   * Handles a Throwable thrown during finalizing the response.
    *
    * @param \Throwable $throwable The throwable.
    *
@@ -36,9 +36,9 @@ class ThrowableAgent
    */
   public function handleFinalizeException(\Throwable $throwable): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
-    $logger = Abc::$abc->getErrorLogger();
+    $logger = Nub::$nub->getErrorLogger();
     $logger->logError($throwable);
   }
 
@@ -58,7 +58,7 @@ class ThrowableAgent
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles a NotAuthorizedException thrown during generating the response by a page object.
+   * Handles a Throwable thrown during generating the response by a page object.
    *
    * @param \Throwable $throwable The throwable.
    *
@@ -78,16 +78,17 @@ class ThrowableAgent
    */
   private function handleException(\Throwable $throwable): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
     // Set the HTTP status to 500 (Internal Server Error).
-    HttpHeader::serverErrorInternalServerError();
+    $response = new InternalServerErrorResponse();
+    $response->send();
 
     // Log the Internal Server Error
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
 
-    $logger = Abc::$abc->getErrorLogger();
+    $logger = Nub::$nub->getErrorLogger();
     $logger->logError($throwable);
   }
 

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\NotFoundResponse;
 use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
@@ -23,19 +23,20 @@ class ResultExceptionAgent
    */
   public function handleConstructException(ResultException $exception): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
     // Set the HTTP status to 404 (Not Found).
-    HttpHeader::clientErrorNotFound();
+    $response = new NotFoundResponse();
+    $response->send();
 
     // Log the invalid URL request.
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
 
     // On a development environment log the exception.
-    if (Abc::$request->isEnvDev())
+    if (Nub::$request->isEnvDev())
     {
-      $logger = Abc::$abc->getErrorLogger();
+      $logger = Nub::$nub->getErrorLogger();
       $logger->logError($exception);
     }
   }

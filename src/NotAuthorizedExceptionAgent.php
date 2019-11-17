@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Exception\NotAuthorizedException;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Exception\NotAuthorizedException;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\NotFoundResponse;
+use Plaisio\Response\SeeOtherResponse;
 
 /**
  * An agent that handles NotAuthorizedException exceptions.
@@ -62,34 +63,36 @@ class NotAuthorizedExceptionAgent
    */
   private function handleException(NotAuthorizedException $exception): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
-    if (Abc::$session->isAnonymous())
+    if (Nub::$session->isAnonymous())
     {
       // The user is not logged on and most likely the user has requested a page for which the user must be logged on.
 
       // Redirect the user agent to the login page. After the user has successfully logged on the user agent will be
       // redirected to currently requested URL.
-      HttpHeader::redirectSeeOther(Abc::$abc->getLoginUrl(Abc::$request->getRequestUri()));
+      $response = new SeeOtherResponse(Nub::$nub->getLoginUrl(Nub::$request->getRequestUri()));
+      $response->send();
     }
     else
     {
       // The user is logged on and the user has requested an URL for which the user has no authorization.
 
       // Set the HTTP status to 404 (Not Found).
-      HttpHeader::clientErrorNotFound();
+      $response = new NotFoundResponse();
+      $response->send();
 
       // Only on development environment log the error.
-      if (Abc::$request->isEnvDev())
+      if (Nub::$request->isEnvDev())
       {
-        $logger = Abc::$abc->getErrorLogger();
+        $logger = Nub::$nub->getErrorLogger();
         $logger->logError($exception);
       }
     }
 
     // Log the not authorized request.
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

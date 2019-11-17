@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Exception\BadRequestException;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Exception\BadRequestException;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\BadRequestResponse;
 
 /**
  * An agent that handles BadRequestException exceptions.
@@ -14,7 +14,7 @@ class BadRequestExceptionAgent
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles a InvalidUrlException thrown in the constructor of a page object.
+   * Handles a BadRequestException thrown in the constructor of a page object.
    *
    * @param BadRequestException $exception The exception.
    *
@@ -56,25 +56,26 @@ class BadRequestExceptionAgent
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles an BadRequestException.
+   * Handles a BadRequestException.
    *
    * @param BadRequestException $exception The exception.
    */
   private function handleException(BadRequestException $exception): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
     // Set the HTTP status to 400 (Bad Request).
-    HttpHeader::clientErrorBadRequest();
+    $response = new BadRequestResponse();
+    $response->send();
 
     // Log the bad request.
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
 
     // Only on development environment log the error.
-    if (Abc::$request->isEnvDev())
+    if (Nub::$request->isEnvDev())
     {
-      $logger = Abc::$abc->getErrorLogger();
+      $logger = Nub::$nub->getErrorLogger();
       $logger->logError($exception);
     }
   }

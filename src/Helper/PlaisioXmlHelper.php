@@ -1,25 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler\Helper;
+namespace Plaisio\ExceptionHandler\Helper;
 
 use SetBased\Exception\RuntimeException;
 
 /**
- * Helper class for retrieving information about abc.xml files.
+ * Helper class for retrieving information about plaisio.xml files.
  */
-class AbcXmlHelper
+class PlaisioXmlHelper
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The path to the abc.xml file.
+   * The path to the plaisio.xml file.
    *
    * @var string
    */
   private $path;
 
   /**
-   * The XML of the abc.xml.
+   * The XML of the plaisio.xml.
    *
    * @var \DOMDocument
    */
@@ -27,9 +27,9 @@ class AbcXmlHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * AbcXmlHelper constructor.
+   * PlaisioXmlHelper constructor.
    *
-   * @param string $path The path to the abc.xml file.
+   * @param string $path The path to the plaisio.xml file.
    */
   public function __construct(string $path)
   {
@@ -45,7 +45,7 @@ class AbcXmlHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the exception agents found in the abc.xml file.
+   * Returns the exception agents found in the plaisio.xml file.
    *
    * @return string[]
    */
@@ -54,7 +54,7 @@ class AbcXmlHelper
     $classes = [];
 
     $xpath = new \DOMXpath($this->xml);
-    $list  = $xpath->query('/abc/exception/agents/agent');
+    $list  = $xpath->query('/plaisio/exception/agents/agent');
     foreach ($list as $item)
     {
       $classes[] = $item->nodeValue;
@@ -73,10 +73,10 @@ class AbcXmlHelper
   {
     $xpath = new \DOMXpath($this->xml);
 
-    $list  = $xpath->query('/abc/exception/class');
+    $list  = $xpath->query('/plaisio/exception/class');
     $class = $list[0]->nodeValue;
 
-    $list  = $xpath->query('/abc/exception/path');
+    $list = $xpath->query('/plaisio/exception/path');
     $path = $list[0]->nodeValue;
 
     return [$class, $path];

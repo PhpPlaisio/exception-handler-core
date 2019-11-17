@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler\Helper;
+namespace Plaisio\ExceptionHandler\Helper;
 
-use SetBased\Abc\Console\Style\AbcStyle;
+use Plaisio\Console\Style\PlaisioStyle;
 
 /**
  * Command for generation the code for the core's exception handler.
@@ -28,7 +28,7 @@ class ExceptionHandlerMetadataExtractor
   /**
    * The output decorator.
    *
-   * @var AbcStyle
+   * @var PlaisioStyle
    */
   private $io;
 
@@ -43,14 +43,13 @@ class ExceptionHandlerMetadataExtractor
                     'handleFinalizeException'];
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * ExceptionHandlerMetadataExtractor constructor.
    *
-   * @param AbcStyle $io             The output decorator.
-   * @param string   $configFilename The path of the abc.xml config file.
+   * @param PlaisioStyle $io             The output decorator.
+   * @param string       $configFilename The path of the abc.xml config file.
    */
-  public function __construct(AbcStyle $io, string $configFilename)
+  public function __construct(PlaisioStyle $io, string $configFilename)
   {
     $this->io             = $io;
     $this->configFilename = $configFilename;
@@ -64,6 +63,8 @@ class ExceptionHandlerMetadataExtractor
    * @param array $agent2 The second agent.
    *
    * @return int
+   *
+   * @throws \ReflectionException
    */
   public static function compareAgents(array $agent1, array $agent2): int
   {
@@ -220,7 +221,7 @@ class ExceptionHandlerMetadataExtractor
       throw new \RuntimeException(sprintf('File %s not found', $this->configFilename));
     }
 
-    $helper = new AbcXmlHelper($this->configFilename);
+    $helper = new PlaisioXmlHelper($this->configFilename);
     $agents = $helper->extractExceptionAgents();
 
     return $agents;

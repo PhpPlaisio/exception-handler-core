@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SetBased\Stratum\Test\Application;
 
 use PHPUnit\Framework\TestCase;
-use SetBased\Abc\Console\Application\AbcApplication;
+use Plaisio\Console\Application\PlaisioApplication;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
@@ -15,13 +15,12 @@ class GenerateExceptionHandlerCoreTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   public function testExecute(): void
   {
-
-    $application = new AbcApplication();
+    $application = new PlaisioApplication();
     $application->setAutoExit(false);
 
     $tester = new ApplicationTester($application);
-    $tester->run(['command'     => 'abc:generate-core-exception-handler',
-                  'config file' => 'test/Command/abc.xml']);
+    $tester->run(['command'     => 'plaisio:generate-core-exception-handler',
+                  'config file' => 'test/Command/plaisio.xml']);
 
     self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay());
 

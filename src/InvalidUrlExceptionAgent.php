@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Exception\InvalidUrlException;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Exception\InvalidUrlException;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\NotFoundResponse;
 
 /**
  * An agent that handles InvalidUrlException exceptions.
@@ -62,19 +62,20 @@ class InvalidUrlExceptionAgent
    */
   private function handleException(InvalidUrlException $exception): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
     // Set the HTTP status to 404 (Not Found).
-    HttpHeader::clientErrorNotFound();
+    $response = new NotFoundResponse();
+    $response->send();
 
     // Log the invalid request request.
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
 
     // Only on development environment log the error.
-    if (Abc::$request->isEnvDev())
+    if (Nub::$request->isEnvDev())
     {
-      $logger = Abc::$abc->getErrorLogger();
+      $logger = Nub::$nub->getErrorLogger();
       $logger->logError($exception);
     }
   }

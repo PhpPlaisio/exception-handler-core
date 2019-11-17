@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler\Command;
+namespace Plaisio\ExceptionHandler\Command;
 
 use Composer\IO\ConsoleIO;
-use SetBased\Abc\Console\Style\AbcStyle;
-use SetBased\Abc\ExceptionHandler\Helper\AbcXmlHelper;
-use SetBased\Abc\ExceptionHandler\Helper\ExceptionHandlerCodeGenerator;
-use SetBased\Abc\ExceptionHandler\Helper\ExceptionHandlerMetadataExtractor;
+use Plaisio\Console\Style\PlaisioStyle;
+use Plaisio\ExceptionHandler\Helper\ExceptionHandlerCodeGenerator;
+use Plaisio\ExceptionHandler\Helper\ExceptionHandlerMetadataExtractor;
+use Plaisio\ExceptionHandler\Helper\PlaisioXmlHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,7 +30,7 @@ class GenerateExceptionHandlerCommand extends Command
   /**
    * The output decorator.
    *
-   * @var AbcStyle
+   * @var PlaisioStyle
    */
   private $io;
 
@@ -40,7 +40,7 @@ class GenerateExceptionHandlerCommand extends Command
    */
   protected function configure()
   {
-    $this->setName('abc:generate-core-exception-handler')
+    $this->setName('plaisio:generate-core-exception-handler')
          ->setDescription('Generates the code for the core\'s exception handler')
          ->addArgument('config file', InputArgument::OPTIONAL, 'The abc.xml configuration file', 'abc.xml');
   }
@@ -51,13 +51,13 @@ class GenerateExceptionHandlerCommand extends Command
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $this->io        = new AbcStyle($input, $output);
+    $this->io        = new PlaisioStyle($input, $output);
     $this->consoleIo = new ConsoleIO($input, $output, $this->getHelperSet());
 
     $metadataExtractor = new ExceptionHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
     $handlers          = $metadataExtractor->extractExceptionAgents();
 
-    $xmlHelper = new AbcXmlHelper($input->getArgument('config file'));
+    $xmlHelper = new PlaisioXmlHelper($input->getArgument('config file'));
     [$class, $path] = $xmlHelper->extractExceptionHandlerClass();
 
     $generator = new ExceptionHandlerCodeGenerator();

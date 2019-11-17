@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler\Helper;
+namespace Plaisio\ExceptionHandler\Helper;
 
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
@@ -40,7 +40,7 @@ class ExceptionHandlerCodeGenerator
   {
     $parts     = explode('\\', $class);
     $class     = array_pop($parts);
-    $namespace = implode('\\', $parts);
+    $namespace = ltrim(implode('\\', $parts), '\\');
 
     $this->generateHeader($namespace);
     $this->generateClass($class, $allAgents);
@@ -84,7 +84,7 @@ class ExceptionHandlerCodeGenerator
     $this->store->append('');
     $this->store->append(sprintf('namespace %s;', $namespace));
     $this->store->append('');
-    $this->store->append('use SetBased\Abc\ExceptionHandler\ExceptionHandler;');
+    $this->store->append('use Plaisio\ExceptionHandler\ExceptionHandler;');
     $this->store->append('');
   }
 

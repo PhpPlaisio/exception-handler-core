@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Abc\ExceptionHandler;
+namespace Plaisio\ExceptionHandler;
 
-use SetBased\Abc\Abc;
-use SetBased\Abc\Exception\NotPreferredUrlException;
-use SetBased\Abc\Helper\HttpHeader;
+use Plaisio\Exception\NotPreferredUrlException;
+use Plaisio\Kernel\Nub;
+use Plaisio\Response\MovedPermanentlyResponse;
 
 /**
  * An agent that handles NotPreferredUrlException exceptions.
@@ -14,7 +14,7 @@ class NotPreferredUrlExceptionAgent
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles an NotPreferredUrlException thrown during generating the response by a page object.
+   * Handles a NotPreferredUrlException thrown during generating the response by a page object.
    *
    * @param NotPreferredUrlException $exception The exception.
    *
@@ -23,14 +23,15 @@ class NotPreferredUrlExceptionAgent
    */
   public function handleResponseException(NotPreferredUrlException $exception): void
   {
-    Abc::$DL->rollback();
+    Nub::$DL->rollback();
 
     // Redirect the user agent to the preferred URL.
-    HttpHeader::redirectMovedPermanently($exception->preferredUri);
+    $response = new MovedPermanentlyResponse($exception->preferredUri);
+    $response->send();
 
     // Log the not preferred request.
-    Abc::$requestLogger->logRequest(HttpHeader::$status);
-    Abc::$DL->commit();
+    Nub::$requestLogger->logRequest($response->getStatus());
+    Nub::$DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

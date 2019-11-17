@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\Test\Application;
 
-use SetBased\Abc\ExceptionHandler\ExceptionHandler;
+use Plaisio\ExceptionHandler\ExceptionHandler;
 
 /**
  * Concrete implementation of the exception handler.
@@ -18,27 +18,27 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
-        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
+        /** @var \Plaisio\Exception\BadRequestException $exception */
+        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
-        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
+        /** @var \Plaisio\Exception\InvalidUrlException $exception */
+        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
-        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
+        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
+        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
       case is_a($exception, 'Throwable'):
         /** @var \Throwable $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
         $handler->handlePrepareException($exception);
         break;
     }
@@ -52,33 +52,33 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
-        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
+        /** @var \Plaisio\Exception\BadRequestException $exception */
+        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
-        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
+        /** @var \Plaisio\Exception\InvalidUrlException $exception */
+        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
-        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
+        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
+        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, 'SetBased\Stratum\Middle\Exception\ResultException'):
         /** @var \SetBased\Stratum\Middle\Exception\ResultException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\ResultExceptionAgent();
+        $handler = new \Plaisio\ExceptionHandler\ResultExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, 'Throwable'):
         /** @var \Throwable $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
         $handler->handleConstructException($exception);
         break;
     }
@@ -92,33 +92,33 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'SetBased\Abc\Exception\BadRequestException'):
-        /** @var \SetBased\Abc\Exception\BadRequestException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
+        /** @var \Plaisio\Exception\BadRequestException $exception */
+        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\InvalidUrlException'):
-        /** @var \SetBased\Abc\Exception\InvalidUrlException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
+        /** @var \Plaisio\Exception\InvalidUrlException $exception */
+        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\NotAuthorizedException'):
-        /** @var \SetBased\Abc\Exception\NotAuthorizedException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
+        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
+        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Abc\Exception\NotPreferredUrlException'):
-        /** @var \SetBased\Abc\Exception\NotPreferredUrlException $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\NotPreferredUrlExceptionAgent();
+      case is_a($exception, 'Plaisio\Exception\NotPreferredUrlException'):
+        /** @var \Plaisio\Exception\NotPreferredUrlException $exception */
+        $handler = new \Plaisio\ExceptionHandler\NotPreferredUrlExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, 'Throwable'):
         /** @var \Throwable $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
         $handler->handleResponseException($exception);
         break;
     }
@@ -134,7 +134,7 @@ class Foo implements ExceptionHandler
     {
       case is_a($exception, 'Throwable'):
         /** @var \Throwable $exception */
-        $handler = new \SetBased\Abc\ExceptionHandler\ThrowableAgent();
+        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
         $handler->handleFinalizeException($exception);
         break;
     }
