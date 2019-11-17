@@ -12,7 +12,7 @@ class ExceptionHandlerMetadataExtractor
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The path of the abc.xml config file.
+   * The path of the plaisio.xml config file.
    *
    * @var string
    */
@@ -47,7 +47,7 @@ class ExceptionHandlerMetadataExtractor
    * ExceptionHandlerMetadataExtractor constructor.
    *
    * @param PlaisioStyle $io             The output decorator.
-   * @param string       $configFilename The path of the abc.xml config file.
+   * @param string       $configFilename The path of the plaisio.xml config file.
    */
   public function __construct(PlaisioStyle $io, string $configFilename)
   {
@@ -81,7 +81,7 @@ class ExceptionHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Extracts exception handlers from abc.xml and reflection of classes.
+   * Extracts exception handlers from plaisio.xml and reflection of classes.
    */
   public function extractExceptionAgents(): array
   {
@@ -210,7 +210,7 @@ class ExceptionHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the exception agents found in the abc.xml file.
+   * Returns the exception agents found in the plaisio.xml file.
    *
    * @return string[]
    */

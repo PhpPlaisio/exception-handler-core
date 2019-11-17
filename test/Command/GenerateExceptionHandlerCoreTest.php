@@ -8,7 +8,7 @@ use Plaisio\Console\Application\PlaisioApplication;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
- * Test cases for the abc:generate-core-exception-handler command.
+ * Test cases for the plaisio:generate-core-exception-handler command.
  */
 class GenerateExceptionHandlerCoreTest extends TestCase
 {
