@@ -7,21 +7,21 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=7.3.0",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "composer/composer": "^1.0.0",
-    "plaisio/exception": "^1.0.0",
-    "plaisio/exception-handler": "^1.0.0",
-    "plaisio/kernel": "^1.0.0",
-    "plaisio/response-core": "^1.0.0",
-    "setbased/helper-code-store-php": "^2.1.1",
-    "setbased/php-stratum-middle": "^5.0.0",
-    "symfony/console": "^4.0.0"
+    "composer/composer": "^1.0",
+    "plaisio/exception": "^1.0",
+    "plaisio/exception-handler": "^1.0",
+    "plaisio/kernel": "^1.0",
+    "plaisio/response-core": "^1.0",
+    "setbased/helper-code-store-php": "^2.3",
+    "setbased/php-stratum-middle": "^5.2",
+    "symfony/console": "^5.0"
   },
   "require-dev": {
-    "phing/phing": "^2.0.0",
-    "phpunit/phpunit": "^7.0.0 || ^8.0.0",
+    "phing/phing": "^2.0",
+    "phpunit/phpunit": "^9.0",
     "plaisio/console": "^0.2.0"
   },
   "autoload": {

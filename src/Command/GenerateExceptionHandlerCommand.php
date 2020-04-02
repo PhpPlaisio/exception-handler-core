@@ -64,6 +64,8 @@ class GenerateExceptionHandlerCommand extends Command
     $code      = $generator->generateCode($class, $handlers);
 
     $this->writeTwoPhases($path, $code);
+
+    return 0;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
