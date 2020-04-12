@@ -95,7 +95,7 @@ class ExceptionHandlerMetadataExtractor
 
     foreach ($agentNames as $agentName)
     {
-      $this->io->writeln(sprintf('Processing class %s', $agentName));
+      $this->io->text(sprintf('Processing class %s', $agentName));
 
       try
       {
