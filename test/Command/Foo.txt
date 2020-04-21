@@ -58,6 +58,12 @@ class Foo implements ExceptionHandler
         $handler->handleConstructException($exception);
         break;
 
+      case is_a($exception, 'Plaisio\Obfuscator\Exception\DecodeException'):
+        /** @var \Plaisio\Obfuscator\Exception\DecodeException $exception */
+        $handler = new \Plaisio\ExceptionHandler\DecodeExceptionAgent();
+        $handler->handleConstructException($exception);
+        break;
+
       case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
         /** @var \Plaisio\Exception\InvalidUrlException $exception */
         $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
@@ -95,6 +101,12 @@ class Foo implements ExceptionHandler
       case is_a($exception, 'Plaisio\Exception\BadRequestException'):
         /** @var \Plaisio\Exception\BadRequestException $exception */
         $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
+        $handler->handleResponseException($exception);
+        break;
+
+      case is_a($exception, 'Plaisio\Obfuscator\Exception\DecodeException'):
+        /** @var \Plaisio\Obfuscator\Exception\DecodeException $exception */
+        $handler = new \Plaisio\ExceptionHandler\DecodeExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 

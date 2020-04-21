@@ -3,12 +3,13 @@
         <class>\SetBased\Stratum\Test\Application\Foo</class>
         <path>test/Command/Foo.php</path>
         <agents>
-            <agent>\Plaisio\ExceptionHandler\ThrowableAgent</agent>
+            <agent>\Plaisio\ExceptionHandler\BadRequestExceptionAgent</agent>
+            <agent>\Plaisio\ExceptionHandler\DecodeExceptionAgent</agent>
             <agent>\Plaisio\ExceptionHandler\InvalidUrlExceptionAgent</agent>
             <agent>\Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent</agent>
             <agent>\Plaisio\ExceptionHandler\NotPreferredUrlExceptionAgent</agent>
-            <agent>\Plaisio\ExceptionHandler\BadRequestExceptionAgent</agent>
             <agent>\Plaisio\ExceptionHandler\ResultExceptionAgent</agent>
+            <agent>\Plaisio\ExceptionHandler\ThrowableAgent</agent>
         </agents>
     </exception>
 </plaisio>

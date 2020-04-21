@@ -15,6 +15,7 @@
     "plaisio/exception": "^1.1",
     "plaisio/exception-handler": "^1.1",
     "plaisio/kernel": "^1.1",
+    "plaisio/obfuscator": "^1.2",
     "plaisio/response-core": "^1.1",
     "setbased/helper-code-store-php": "^2.3",
     "setbased/php-stratum-middle": "^5.2",
