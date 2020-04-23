@@ -11,7 +11,7 @@
     "ext-dom": "*",
     "ext-libxml": "*",
     "composer/composer": "^1.0",
-    "plaisio/console": "^0.2.10",
+    "plaisio/console": "^0.2.15",
     "plaisio/exception": "^1.1",
     "plaisio/exception-handler": "^1.1",
     "plaisio/kernel": "^1.1",

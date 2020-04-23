@@ -15,12 +15,13 @@ class GenerateExceptionHandlerCoreTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   public function testExecute(): void
   {
+    $_ENV['PLAISIO_CONFIG'] = __DIR__.'/plaisio.xml';
+
     $application = new PlaisioApplication();
     $application->setAutoExit(false);
 
     $tester = new ApplicationTester($application);
-    $tester->run(['command'     => 'plaisio:generate-core-exception-handler',
-                  'config file' => 'test/Command/plaisio.xml']);
+    $tester->run(['command' => 'plaisio:generate-core-exception-handler']);
 
     self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay());
 

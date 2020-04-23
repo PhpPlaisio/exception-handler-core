@@ -1,4 +1,7 @@
 <plaisio>
+    <commands>
+        <command name="plaisio:generate-core-exception-handler">\Plaisio\ExceptionHandler\Command\GenerateExceptionHandlerCommand</command>
+    </commands>
     <exception>
         <class>\SetBased\Stratum\Test\Application\Foo</class>
         <path>test/Command/Foo.php</path>

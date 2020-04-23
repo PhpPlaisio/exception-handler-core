@@ -12,13 +12,6 @@ class ExceptionHandlerMetadataExtractor
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The path of the plaisio.xml config file.
-   *
-   * @var string
-   */
-  private $configFilename;
-
-  /**
    * The number of errors occurred.
    *
    * @var int
@@ -46,13 +39,11 @@ class ExceptionHandlerMetadataExtractor
   /**
    * ExceptionHandlerMetadataExtractor constructor.
    *
-   * @param PlaisioStyle $io             The output decorator.
-   * @param string       $configFilename The path of the plaisio.xml config file.
+   * @param PlaisioStyle $io The output decorator.
    */
-  public function __construct(PlaisioStyle $io, string $configFilename)
+  public function __construct(PlaisioStyle $io)
   {
-    $this->io             = $io;
-    $this->configFilename = $configFilename;
+    $this->io = $io;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -216,15 +207,9 @@ class ExceptionHandlerMetadataExtractor
    */
   private function readExceptionAgents(): array
   {
-    if (!is_file($this->configFilename))
-    {
-      throw new \RuntimeException(sprintf('File %s not found', $this->configFilename));
-    }
+    $helper = new PlaisioXmlHelper();
 
-    $helper = new PlaisioXmlHelper($this->configFilename);
-    $agents = $helper->extractExceptionAgents();
-
-    return $agents;
+    return $helper->extractExceptionAgents();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

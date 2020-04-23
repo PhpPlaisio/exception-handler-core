@@ -8,7 +8,6 @@ use Plaisio\Console\Helper\TwoPhaseWrite;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerCodeGenerator;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerMetadataExtractor;
 use Plaisio\ExceptionHandler\Helper\PlaisioXmlHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,8 +23,7 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
   protected function configure()
   {
     $this->setName('plaisio:generate-core-exception-handler')
-         ->setDescription('Generates the code for the core\'s exception handler')
-         ->addArgument('config file', InputArgument::OPTIONAL, 'The plaisio.xml configuration file', 'plaisio.xml');
+         ->setDescription('Generates the code for the core\'s exception handler');
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -36,10 +34,10 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
   {
     $this->io->title('Plaisio: Generate Core Exception Handler');
 
-    $metadataExtractor = new ExceptionHandlerMetadataExtractor($this->io, $input->getArgument('config file'));
+    $metadataExtractor = new ExceptionHandlerMetadataExtractor($this->io);
     $handlers          = $metadataExtractor->extractExceptionAgents();
 
-    $xmlHelper = new PlaisioXmlHelper($input->getArgument('config file'));
+    $xmlHelper = new PlaisioXmlHelper();
     [$class, $path] = $xmlHelper->extractExceptionHandlerClass();
 
     $generator = new ExceptionHandlerCodeGenerator();

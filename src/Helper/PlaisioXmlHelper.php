@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler\Helper;
 
+use Plaisio\Console\Helper\PlaisioXmlHelper as ConsolePlaisioXmlHelper;
 use SetBased\Exception\RuntimeException;
 
 /**
@@ -28,18 +29,16 @@ class PlaisioXmlHelper
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * PlaisioXmlHelper constructor.
-   *
-   * @param string $path The path to the plaisio.xml file.
    */
-  public function __construct(string $path)
+  public function __construct()
   {
-    $this->path = $path;
+    $this->path = ConsolePlaisioXmlHelper::plaisioXmlPath();
 
     $this->xml = new \DOMDocument();
-    $success   = $this->xml->load($path, LIBXML_NOWARNING);
+    $success   = $this->xml->load($this->path, LIBXML_NOWARNING);
     if (!$success)
     {
-      throw new RuntimeException('Unable to parse XML file "%s".', $path);
+      throw new RuntimeException('Unable to parse XML file "%s".', $this->path);
     }
   }
 
