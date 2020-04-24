@@ -38,7 +38,7 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
     $handlers          = $metadataExtractor->extractExceptionAgents();
 
     $xmlHelper = new PlaisioXmlHelper();
-    [$class, $path] = $xmlHelper->extractExceptionHandlerClass();
+    [$class, $path] = $xmlHelper->queryExceptionHandlerClass();
 
     $generator = new ExceptionHandlerCodeGenerator();
     $code      = $generator->generateCode($class, $handlers);

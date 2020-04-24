@@ -3,45 +3,13 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler\Helper;
 
-use Plaisio\Console\Helper\PlaisioXmlHelper as ConsolePlaisioXmlHelper;
-use SetBased\Exception\RuntimeException;
+use Plaisio\Console\Helper\PlaisioXmlHelper as BasePlaisioXmlHelper;
 
 /**
  * Helper class for retrieving information about plaisio.xml files.
  */
-class PlaisioXmlHelper
+class PlaisioXmlHelper extends BasePlaisioXmlHelper
 {
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * The path to the plaisio.xml file.
-   *
-   * @var string
-   */
-  private $path;
-
-  /**
-   * The XML of the plaisio.xml.
-   *
-   * @var \DOMDocument
-   */
-  private $xml;
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * PlaisioXmlHelper constructor.
-   */
-  public function __construct()
-  {
-    $this->path = ConsolePlaisioXmlHelper::plaisioXmlPath();
-
-    $this->xml = new \DOMDocument();
-    $success   = $this->xml->load($this->path, LIBXML_NOWARNING);
-    if (!$success)
-    {
-      throw new RuntimeException('Unable to parse XML file "%s".', $this->path);
-    }
-  }
-
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Returns the exception agents found in the plaisio.xml file.
@@ -68,7 +36,7 @@ class PlaisioXmlHelper
    *
    * @return string[]
    */
-  public function extractExceptionHandlerClass(): array
+  public function queryExceptionHandlerClass(): array
   {
     $xpath = new \DOMXpath($this->xml);
 
