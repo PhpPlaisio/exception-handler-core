@@ -3,7 +3,20 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\Test\Application;
 
+use Plaisio\Exception\BadRequestException;
+use Plaisio\Exception\InvalidUrlException;
+use Plaisio\Exception\NotAuthorizedException;
+use Plaisio\Exception\NotPreferredUrlException;
+use Plaisio\ExceptionHandler\BadRequestExceptionAgent;
+use Plaisio\ExceptionHandler\DecodeExceptionAgent;
 use Plaisio\ExceptionHandler\ExceptionHandler;
+use Plaisio\ExceptionHandler\InvalidUrlExceptionAgent;
+use Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent;
+use Plaisio\ExceptionHandler\NotPreferredUrlExceptionAgent;
+use Plaisio\ExceptionHandler\ResultExceptionAgent;
+use Plaisio\ExceptionHandler\ThrowableAgent;
+use Plaisio\Obfuscator\Exception\DecodeException;
+use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
  * Concrete implementation of the exception handler.
@@ -18,27 +31,27 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
-        /** @var \Plaisio\Exception\BadRequestException $exception */
-        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, BadRequestException::class):
+        /** @var BadRequestException $exception */
+        $handler = new BadRequestExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
-        /** @var \Plaisio\Exception\InvalidUrlException $exception */
-        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, InvalidUrlException::class):
+        /** @var InvalidUrlException $exception */
+        $handler = new InvalidUrlExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
-        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
-        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, NotAuthorizedException::class):
+        /** @var NotAuthorizedException $exception */
+        $handler = new NotAuthorizedExceptionAgent();
         $handler->handlePrepareException($exception);
         break;
 
-      case is_a($exception, 'Throwable'):
+      case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
+        $handler = new ThrowableAgent();
         $handler->handlePrepareException($exception);
         break;
     }
@@ -52,39 +65,39 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
-        /** @var \Plaisio\Exception\BadRequestException $exception */
-        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, BadRequestException::class):
+        /** @var BadRequestException $exception */
+        $handler = new BadRequestExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Obfuscator\Exception\DecodeException'):
-        /** @var \Plaisio\Obfuscator\Exception\DecodeException $exception */
-        $handler = new \Plaisio\ExceptionHandler\DecodeExceptionAgent();
+      case is_a($exception, DecodeException::class):
+        /** @var DecodeException $exception */
+        $handler = new DecodeExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
-        /** @var \Plaisio\Exception\InvalidUrlException $exception */
-        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, InvalidUrlException::class):
+        /** @var InvalidUrlException $exception */
+        $handler = new InvalidUrlExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
-        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
-        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, NotAuthorizedException::class):
+        /** @var NotAuthorizedException $exception */
+        $handler = new NotAuthorizedExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'SetBased\Stratum\Middle\Exception\ResultException'):
-        /** @var \SetBased\Stratum\Middle\Exception\ResultException $exception */
-        $handler = new \Plaisio\ExceptionHandler\ResultExceptionAgent();
+      case is_a($exception, ResultException::class):
+        /** @var ResultException $exception */
+        $handler = new ResultExceptionAgent();
         $handler->handleConstructException($exception);
         break;
 
-      case is_a($exception, 'Throwable'):
+      case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
+        $handler = new ThrowableAgent();
         $handler->handleConstructException($exception);
         break;
     }
@@ -98,39 +111,39 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'Plaisio\Exception\BadRequestException'):
-        /** @var \Plaisio\Exception\BadRequestException $exception */
-        $handler = new \Plaisio\ExceptionHandler\BadRequestExceptionAgent();
+      case is_a($exception, BadRequestException::class):
+        /** @var BadRequestException $exception */
+        $handler = new BadRequestExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Obfuscator\Exception\DecodeException'):
-        /** @var \Plaisio\Obfuscator\Exception\DecodeException $exception */
-        $handler = new \Plaisio\ExceptionHandler\DecodeExceptionAgent();
+      case is_a($exception, DecodeException::class):
+        /** @var DecodeException $exception */
+        $handler = new DecodeExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\InvalidUrlException'):
-        /** @var \Plaisio\Exception\InvalidUrlException $exception */
-        $handler = new \Plaisio\ExceptionHandler\InvalidUrlExceptionAgent();
+      case is_a($exception, InvalidUrlException::class):
+        /** @var InvalidUrlException $exception */
+        $handler = new InvalidUrlExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\NotAuthorizedException'):
-        /** @var \Plaisio\Exception\NotAuthorizedException $exception */
-        $handler = new \Plaisio\ExceptionHandler\NotAuthorizedExceptionAgent();
+      case is_a($exception, NotAuthorizedException::class):
+        /** @var NotAuthorizedException $exception */
+        $handler = new NotAuthorizedExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'Plaisio\Exception\NotPreferredUrlException'):
-        /** @var \Plaisio\Exception\NotPreferredUrlException $exception */
-        $handler = new \Plaisio\ExceptionHandler\NotPreferredUrlExceptionAgent();
+      case is_a($exception, NotPreferredUrlException::class):
+        /** @var NotPreferredUrlException $exception */
+        $handler = new NotPreferredUrlExceptionAgent();
         $handler->handleResponseException($exception);
         break;
 
-      case is_a($exception, 'Throwable'):
+      case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
+        $handler = new ThrowableAgent();
         $handler->handleResponseException($exception);
         break;
     }
@@ -144,9 +157,9 @@ class Foo implements ExceptionHandler
   {
     switch (true)
     {
-      case is_a($exception, 'Throwable'):
+      case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new \Plaisio\ExceptionHandler\ThrowableAgent();
+        $handler = new ThrowableAgent();
         $handler->handleFinalizeException($exception);
         break;
     }

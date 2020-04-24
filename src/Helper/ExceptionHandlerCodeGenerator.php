@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler\Helper;
 
+use SetBased\Helper\CodeStore\Importing;
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
 /**
@@ -11,6 +12,20 @@ use SetBased\Helper\CodeStore\PhpCodeStore;
 class ExceptionHandlerCodeGenerator
 {
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * The parent class of the generated exception handler.
+   *
+   * @var string
+   */
+  private static $parentClass = '\\Plaisio\\ExceptionHandler\\ExceptionHandler';
+
+  /**
+   * The helper object for importing classes.
+   *
+   * @var Importing
+   */
+  private $importing;
+
   /**
    * The PHP code store.
    *
@@ -31,16 +46,22 @@ class ExceptionHandlerCodeGenerator
   /**
    * Generates the PHP code of the exception handler.
    *
-   * @param string  $class     The fully qualified class name.
-   * @param array[] $allAgents The metadata of the exception agents.
+   * @param string  $fullyQualifiedName The fully qualified class name.
+   * @param array[] $allAgents          The metadata of the exception agents.
    *
    * @return string
    */
-  public function generateCode(string $class, array $allAgents): string
+  public function generateCode(string $fullyQualifiedName, array $allAgents): string
   {
-    $parts     = explode('\\', $class);
+    $parts     = explode('\\', $fullyQualifiedName);
     $class     = array_pop($parts);
     $namespace = ltrim(implode('\\', $parts), '\\');
+
+    $this->importing = new Importing($namespace);
+    $this->importing->addClass(self::$parentClass);
+    $this->importClasses($allAgents);
+
+    $this->importing->prepare();
 
     $this->generateHeader($namespace);
     $this->generateClass($class, $allAgents);
@@ -84,7 +105,7 @@ class ExceptionHandlerCodeGenerator
     $this->store->append('');
     $this->store->append(sprintf('namespace %s;', $namespace));
     $this->store->append('');
-    $this->store->append('use Plaisio\ExceptionHandler\ExceptionHandler;');
+    $this->store->append($this->importing->imports());
     $this->store->append('');
   }
 
@@ -101,7 +122,9 @@ class ExceptionHandlerCodeGenerator
     $this->store->append('/**');
     $this->store->append(' * @inheritdoc', false);
     $this->store->append(' */', false);
-    $this->store->append(sprintf('public function %s(\\Throwable $exception): void', $method));
+    $this->store->append(sprintf('public function %s(%s $exception): void',
+                                 $method,
+                                 $this->importing->simplyFullyQualifiedName('\\Throwable')));
     $this->store->append('{');
     $this->store->append('switch (true)');
     $this->store->append('{');
@@ -110,9 +133,12 @@ class ExceptionHandlerCodeGenerator
     {
       if (!$first) $this->store->append('');
 
-      $this->store->append(sprintf("case is_a(\$exception, '%s'):", $agent['type']));
-      $this->store->append(sprintf('/** @var \\%s $exception */', $agent['type']));
-      $this->store->append(sprintf("\$handler = new \\%s();", $agent['class']));
+      $this->store->append(sprintf("case is_a(\$exception, %s::class):",
+                                   $this->importing->simplyFullyQualifiedName($agent['type'])));
+      $this->store->append(sprintf('/** @var %s $exception */',
+                                   $this->importing->simplyFullyQualifiedName($agent['type'])));
+      $this->store->append(sprintf("\$handler = new %s();",
+                                   $this->importing->simplyFullyQualifiedName($agent['class'])));
       $this->store->append(sprintf('$handler->%s($exception);', $agent['method']));
       $this->store->append('break;');
 
@@ -131,6 +157,24 @@ class ExceptionHandlerCodeGenerator
   {
     $this->store->append('');
     $this->store->appendSeparator();
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Adds classes of  exception agents to the importing helper object.
+   *
+   * @param array[] $allAgents The metadata of the exception agents.
+   */
+  private function importClasses(array $allAgents): void
+  {
+    foreach ($allAgents as $name => $agents)
+    {
+      foreach ($agents as $agent)
+      {
+        $this->importing->addClass($agent['type']);
+        $this->importing->addClass($agent['class']);
+      }
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
