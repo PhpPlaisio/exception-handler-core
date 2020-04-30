@@ -28,6 +28,20 @@ class DecodeExceptionAgent
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Handles a DecodeException thrown thrown during the preparation phase.
+   *
+   * @param DecodeException $exception The exception.
+   *
+   * @since 1.2.0
+   * @api
+   */
+  public function handlePrepareException(DecodeException $exception): void
+  {
+    $this->handleException($exception);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Handles a DecodeException thrown during generating the response by a page object.
    *
    * @param DecodeException $exception The exception.

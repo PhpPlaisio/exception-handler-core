@@ -37,6 +37,12 @@ class Foo implements ExceptionHandler
         $handler->handlePrepareException($exception);
         break;
 
+      case is_a($exception, DecodeException::class):
+        /** @var DecodeException $exception */
+        $handler = new DecodeExceptionAgent();
+        $handler->handlePrepareException($exception);
+        break;
+
       case is_a($exception, InvalidUrlException::class):
         /** @var InvalidUrlException $exception */
         $handler = new InvalidUrlExceptionAgent();
