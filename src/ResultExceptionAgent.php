@@ -23,21 +23,20 @@ class ResultExceptionAgent
    */
   public function handleConstructException(ResultException $exception): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
     // Set the HTTP status to 404 (Not Found).
     $response = new NotFoundResponse();
     $response->send();
 
     // Log the invalid URL request.
-    Nub::$requestLogger->logRequest($response->getStatus());
-    Nub::$DL->commit();
+    Nub::$nub->requestLogger->logRequest($response->getStatus());
+    Nub::$nub->DL->commit();
 
     // On a development environment log the exception.
-    if (Nub::$request->isEnvDev())
+    if (Nub::$nub->request->isEnvDev())
     {
-      $logger = Nub::$nub->getErrorLogger();
-      $logger->logError($exception);
+      Nub::$nub->errorLogger->logError($exception);
     }
   }
 

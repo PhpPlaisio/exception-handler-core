@@ -23,15 +23,15 @@ class NotPreferredUrlExceptionAgent
    */
   public function handleResponseException(NotPreferredUrlException $exception): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
     // Redirect the user agent to the preferred URL.
     $response = new MovedPermanentlyResponse($exception->preferredUri);
     $response->send();
 
     // Log the not preferred request.
-    Nub::$requestLogger->logRequest($response->getStatus());
-    Nub::$DL->commit();
+    Nub::$nub->requestLogger->logRequest($response->getStatus());
+    Nub::$nub->DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

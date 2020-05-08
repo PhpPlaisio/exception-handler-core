@@ -36,10 +36,9 @@ class ThrowableAgent
    */
   public function handleFinalizeException(\Throwable $throwable): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
-    $logger = Nub::$nub->getErrorLogger();
-    $logger->logError($throwable);
+    Nub::$nub->errorLogger->logError($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -78,18 +77,17 @@ class ThrowableAgent
    */
   private function handleException(\Throwable $throwable): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
     // Set the HTTP status to 500 (Internal Server Error).
     $response = new InternalServerErrorResponse();
     $response->send();
 
     // Log the Internal Server Error
-    Nub::$requestLogger->logRequest($response->getStatus());
-    Nub::$DL->commit();
+    Nub::$nub->requestLogger->logRequest($response->getStatus());
+    Nub::$nub->DL->commit();
 
-    $logger = Nub::$nub->getErrorLogger();
-    $logger->logError($throwable);
+    Nub::$nub->errorLogger->logError($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

@@ -62,21 +62,20 @@ class DecodeExceptionAgent
    */
   private function handleException(DecodeException $exception): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
     // Set the HTTP status to 400 (Bad Request).
     $response = new BadRequestResponse();
     $response->send();
 
     // Log the bad request.
-    Nub::$requestLogger->logRequest($response->getStatus());
-    Nub::$DL->commit();
+    Nub::$nub->requestLogger->logRequest($response->getStatus());
+    Nub::$nub->DL->commit();
 
     // Only on development environment log the error.
-    if (Nub::$request->isEnvDev())
+    if (Nub::$nub->request->isEnvDev())
     {
-      $logger = Nub::$nub->getErrorLogger();
-      $logger->logError($exception);
+      Nub::$nub->errorLogger->logError($exception);
     }
   }
 

@@ -63,15 +63,15 @@ class NotAuthorizedExceptionAgent
    */
   private function handleException(NotAuthorizedException $exception): void
   {
-    Nub::$DL->rollback();
+    Nub::$nub->DL->rollback();
 
-    if (Nub::$session->isAnonymous())
+    if (Nub::$nub->session->isAnonymous())
     {
       // The user is not logged on and most likely the user has requested a page for which the user must be logged on.
 
       // Redirect the user agent to the login page. After the user has successfully logged on the user agent will be
       // redirected to currently requested URL.
-      $response = new SeeOtherResponse(Nub::$nub->getLoginUrl(Nub::$request->getRequestUri()));
+      $response = new SeeOtherResponse(Nub::$nub->getLoginUrl(Nub::$nub->request->getRequestUri()));
       $response->send();
     }
     else
@@ -83,16 +83,15 @@ class NotAuthorizedExceptionAgent
       $response->send();
 
       // Only on development environment log the error.
-      if (Nub::$request->isEnvDev())
+      if (Nub::$nub->request->isEnvDev())
       {
-        $logger = Nub::$nub->getErrorLogger();
-        $logger->logError($exception);
+        Nub::$nub->errorLogger->logError($exception);
       }
     }
 
     // Log the not authorized request.
-    Nub::$requestLogger->logRequest($response->getStatus());
-    Nub::$DL->commit();
+    Nub::$nub->requestLogger->logRequest($response->getStatus());
+    Nub::$nub->DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
