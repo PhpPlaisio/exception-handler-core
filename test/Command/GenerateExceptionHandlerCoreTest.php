@@ -15,7 +15,7 @@ class GenerateExceptionHandlerCoreTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   public function testExecute(): void
   {
-    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG', __DIR__.'/plaisio.xml'));
+    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG_DIR', __DIR__));
 
     $application = new PlaisioApplication();
     $application->setAutoExit(false);

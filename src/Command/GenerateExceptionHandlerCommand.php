@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Plaisio\ExceptionHandler\Command;
 
 use Plaisio\Console\Command\PlaisioCommand;
+use Plaisio\Console\Helper\PlaisioXmlUtility;
 use Plaisio\Console\Helper\TwoPhaseWrite;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerCodeGenerator;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerMetadataExtractor;
@@ -37,7 +38,7 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
     $metadataExtractor = new ExceptionHandlerMetadataExtractor($this->io);
     $handlers          = $metadataExtractor->extractExceptionAgents();
 
-    $xmlHelper = new PlaisioXmlHelper();
+    $xmlHelper = new PlaisioXmlHelper(PlaisioXmlUtility::plaisioXmlPath('exception'));
     [$class, $path] = $xmlHelper->queryExceptionHandlerClass();
 
     $generator = new ExceptionHandlerCodeGenerator();

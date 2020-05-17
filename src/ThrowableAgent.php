@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler;
 
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 use Plaisio\Response\InternalServerErrorResponse;
 
 /**
  * An agent that handles \Throwable exceptions.
  */
-class ThrowableAgent
+class ThrowableAgent extends PlaisioObject
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -36,9 +36,9 @@ class ThrowableAgent
    */
   public function handleFinalizeException(\Throwable $throwable): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
-    Nub::$nub->errorLogger->logError($throwable);
+    $this->nub->errorLogger->logError($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -77,17 +77,17 @@ class ThrowableAgent
    */
   private function handleException(\Throwable $throwable): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
     // Set the HTTP status to 500 (Internal Server Error).
     $response = new InternalServerErrorResponse();
     $response->send();
 
     // Log the Internal Server Error
-    Nub::$nub->requestLogger->logRequest($response->getStatus());
-    Nub::$nub->DL->commit();
+    $this->nub->requestLogger->logRequest($response->getStatus());
+    $this->nub->DL->commit();
 
-    Nub::$nub->errorLogger->logError($throwable);
+    $this->nub->errorLogger->logError($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

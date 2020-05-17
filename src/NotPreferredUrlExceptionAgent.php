@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Plaisio\ExceptionHandler;
 
 use Plaisio\Exception\NotPreferredUrlException;
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 use Plaisio\Response\MovedPermanentlyResponse;
 
 /**
  * An agent that handles NotPreferredUrlException exceptions.
  */
-class NotPreferredUrlExceptionAgent
+class NotPreferredUrlExceptionAgent extends PlaisioObject
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -23,15 +23,15 @@ class NotPreferredUrlExceptionAgent
    */
   public function handleResponseException(NotPreferredUrlException $exception): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
     // Redirect the user agent to the preferred URL.
     $response = new MovedPermanentlyResponse($exception->preferredUri);
     $response->send();
 
     // Log the not preferred request.
-    Nub::$nub->requestLogger->logRequest($response->getStatus());
-    Nub::$nub->DL->commit();
+    $this->nub->requestLogger->logRequest($response->getStatus());
+    $this->nub->DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

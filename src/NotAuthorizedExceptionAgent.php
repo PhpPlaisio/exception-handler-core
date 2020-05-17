@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace Plaisio\ExceptionHandler;
 
 use Plaisio\Exception\NotAuthorizedException;
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 use Plaisio\Response\NotFoundResponse;
 use Plaisio\Response\SeeOtherResponse;
 
 /**
  * An agent that handles NotAuthorizedException exceptions.
  */
-class NotAuthorizedExceptionAgent
+class NotAuthorizedExceptionAgent extends PlaisioObject
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -63,15 +63,15 @@ class NotAuthorizedExceptionAgent
    */
   private function handleException(NotAuthorizedException $exception): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
-    if (Nub::$nub->session->isAnonymous())
+    if ($this->nub->session->isAnonymous())
     {
       // The user is not logged on and most likely the user has requested a page for which the user must be logged on.
 
       // Redirect the user agent to the login page. After the user has successfully logged on the user agent will be
       // redirected to currently requested URL.
-      $response = new SeeOtherResponse(Nub::$nub->getLoginUrl(Nub::$nub->request->getRequestUri()));
+      $response = new SeeOtherResponse($this->nub->getLoginUrl($this->nub->request->getRequestUri()));
       $response->send();
     }
     else
@@ -83,15 +83,15 @@ class NotAuthorizedExceptionAgent
       $response->send();
 
       // Only on development environment log the error.
-      if (Nub::$nub->request->isEnvDev())
+      if ($this->nub->request->isEnvDev())
       {
-        Nub::$nub->errorLogger->logError($exception);
+        $this->nub->errorLogger->logError($exception);
       }
     }
 
     // Log the not authorized request.
-    Nub::$nub->requestLogger->logRequest($response->getStatus());
-    Nub::$nub->DL->commit();
+    $this->nub->requestLogger->logRequest($response->getStatus());
+    $this->nub->DL->commit();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Plaisio\ExceptionHandler;
 
 use Plaisio\Exception\InvalidUrlException;
-use Plaisio\Kernel\Nub;
+use Plaisio\PlaisioObject;
 use Plaisio\Response\NotFoundResponse;
 
 /**
  * An agent that handles InvalidUrlException exceptions.
  */
-class InvalidUrlExceptionAgent
+class InvalidUrlExceptionAgent extends PlaisioObject
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -62,20 +62,20 @@ class InvalidUrlExceptionAgent
    */
   private function handleException(InvalidUrlException $exception): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
     // Set the HTTP status to 404 (Not Found).
     $response = new NotFoundResponse();
     $response->send();
 
     // Log the invalid request request.
-    Nub::$nub->requestLogger->logRequest($response->getStatus());
-    Nub::$nub->DL->commit();
+    $this->nub->requestLogger->logRequest($response->getStatus());
+    $this->nub->DL->commit();
 
     // Only on development environment log the error.
-    if (Nub::$nub->request->isEnvDev())
+    if ($this->nub->request->isEnvDev())
     {
-      Nub::$nub->errorLogger->logError($exception);
+      $this->nub->errorLogger->logError($exception);
     }
   }
 

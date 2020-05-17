@@ -16,12 +16,13 @@ use Plaisio\ExceptionHandler\NotPreferredUrlExceptionAgent;
 use Plaisio\ExceptionHandler\ResultExceptionAgent;
 use Plaisio\ExceptionHandler\ThrowableAgent;
 use Plaisio\Obfuscator\Exception\DecodeException;
+use Plaisio\PlaisioObject;
 use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
  * Concrete implementation of the exception handler.
  */
-class Foo implements ExceptionHandler
+class Foo extends PlaisioObject implements ExceptionHandler
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -33,31 +34,31 @@ class Foo implements ExceptionHandler
     {
       case is_a($exception, BadRequestException::class):
         /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent();
+        $handler = new BadRequestExceptionAgent($this);
         $handler->handlePrepareException($exception);
         break;
 
       case is_a($exception, DecodeException::class):
         /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent();
+        $handler = new DecodeExceptionAgent($this);
         $handler->handlePrepareException($exception);
         break;
 
       case is_a($exception, InvalidUrlException::class):
         /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent();
+        $handler = new InvalidUrlExceptionAgent($this);
         $handler->handlePrepareException($exception);
         break;
 
       case is_a($exception, NotAuthorizedException::class):
         /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent();
+        $handler = new NotAuthorizedExceptionAgent($this);
         $handler->handlePrepareException($exception);
         break;
 
       case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new ThrowableAgent();
+        $handler = new ThrowableAgent($this);
         $handler->handlePrepareException($exception);
         break;
     }
@@ -73,37 +74,37 @@ class Foo implements ExceptionHandler
     {
       case is_a($exception, BadRequestException::class):
         /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent();
+        $handler = new BadRequestExceptionAgent($this);
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, DecodeException::class):
         /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent();
+        $handler = new DecodeExceptionAgent($this);
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, InvalidUrlException::class):
         /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent();
+        $handler = new InvalidUrlExceptionAgent($this);
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, NotAuthorizedException::class):
         /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent();
+        $handler = new NotAuthorizedExceptionAgent($this);
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, ResultException::class):
         /** @var ResultException $exception */
-        $handler = new ResultExceptionAgent();
+        $handler = new ResultExceptionAgent($this);
         $handler->handleConstructException($exception);
         break;
 
       case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new ThrowableAgent();
+        $handler = new ThrowableAgent($this);
         $handler->handleConstructException($exception);
         break;
     }
@@ -119,37 +120,37 @@ class Foo implements ExceptionHandler
     {
       case is_a($exception, BadRequestException::class):
         /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent();
+        $handler = new BadRequestExceptionAgent($this);
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, DecodeException::class):
         /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent();
+        $handler = new DecodeExceptionAgent($this);
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, InvalidUrlException::class):
         /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent();
+        $handler = new InvalidUrlExceptionAgent($this);
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, NotAuthorizedException::class):
         /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent();
+        $handler = new NotAuthorizedExceptionAgent($this);
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, NotPreferredUrlException::class):
         /** @var NotPreferredUrlException $exception */
-        $handler = new NotPreferredUrlExceptionAgent();
+        $handler = new NotPreferredUrlExceptionAgent($this);
         $handler->handleResponseException($exception);
         break;
 
       case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new ThrowableAgent();
+        $handler = new ThrowableAgent($this);
         $handler->handleResponseException($exception);
         break;
     }
@@ -165,7 +166,7 @@ class Foo implements ExceptionHandler
     {
       case is_a($exception, \Throwable::class):
         /** @var \Throwable $exception */
-        $handler = new ThrowableAgent();
+        $handler = new ThrowableAgent($this);
         $handler->handleFinalizeException($exception);
         break;
     }

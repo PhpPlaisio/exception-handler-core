@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler;
 
-use Plaisio\Kernel\Nub;
 use Plaisio\Obfuscator\Exception\DecodeException;
+use Plaisio\PlaisioObject;
 use Plaisio\Response\BadRequestResponse;
 
 /**
  * An agent that handles DecodeException exceptions.
  */
-class DecodeExceptionAgent
+class DecodeExceptionAgent extends PlaisioObject
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -62,20 +62,20 @@ class DecodeExceptionAgent
    */
   private function handleException(DecodeException $exception): void
   {
-    Nub::$nub->DL->rollback();
+    $this->nub->DL->rollback();
 
     // Set the HTTP status to 400 (Bad Request).
     $response = new BadRequestResponse();
     $response->send();
 
     // Log the bad request.
-    Nub::$nub->requestLogger->logRequest($response->getStatus());
-    Nub::$nub->DL->commit();
+    $this->nub->requestLogger->logRequest($response->getStatus());
+    $this->nub->DL->commit();
 
     // Only on development environment log the error.
-    if (Nub::$nub->request->isEnvDev())
+    if ($this->nub->request->isEnvDev())
     {
-      Nub::$nub->errorLogger->logError($exception);
+      $this->nub->errorLogger->logError($exception);
     }
   }
 

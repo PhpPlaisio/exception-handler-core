@@ -21,7 +21,7 @@ class PlaisioXmlHelper extends BasePlaisioXmlHelper
     $classes = [];
 
     $xpath = new \DOMXpath($this->xml);
-    $list  = $xpath->query('/plaisio/exception/agents/agent');
+    $list  = $xpath->query('/exception/agents/agent');
     foreach ($list as $item)
     {
       $classes[] = $item->nodeValue;
@@ -40,10 +40,10 @@ class PlaisioXmlHelper extends BasePlaisioXmlHelper
   {
     $xpath = new \DOMXpath($this->xml);
 
-    $list  = $xpath->query('/plaisio/exception/class');
+    $list  = $xpath->query('/exception/class');
     $class = $list[0]->nodeValue;
 
-    $list = $xpath->query('/plaisio/exception/path');
+    $list = $xpath->query('/exception/path');
     $path = $list[0]->nodeValue;
 
     return [$class, $path];
