@@ -19,7 +19,7 @@
     "plaisio/obfuscator": "^2.0",
     "plaisio/request": "^0.11",
     "plaisio/request-logger": "^1.2",
-    "plaisio/response-core": "^1.1",
+    "plaisio/response-core": "^1.1 || ^2.0",
     "plaisio/session": "^4.0",
     "setbased/helper-code-store-php": "^2.4.1",
     "setbased/php-stratum-middle": "^5.2",
