@@ -5,6 +5,7 @@ namespace Plaisio\ExceptionHandler\Helper;
 
 use Plaisio\ExceptionHandler\ExceptionHandler;
 use Plaisio\PlaisioObject;
+use Plaisio\Response\Response;
 use SetBased\Helper\CodeStore\Importing;
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
@@ -55,6 +56,7 @@ class ExceptionHandlerCodeGenerator
     $this->importing = new Importing($namespace);
     $this->importing->addClass(ExceptionHandler::class);
     $this->importing->addClass(PlaisioObject::class);
+    $this->importing->addClass(Response::class);
     $this->importClasses($allAgents);
 
     $this->importing->prepare();
@@ -121,29 +123,37 @@ class ExceptionHandlerCodeGenerator
     $this->store->append('/**');
     $this->store->append(' * @inheritdoc', false);
     $this->store->append(' */', false);
-    $this->store->append(sprintf('public function %s(%s $exception): void',
+    $this->store->append(sprintf('public function %s(%s $exception): Response',
                                  $method,
                                  $this->importing->simplyFullyQualifiedName('\\Throwable')));
-    $this->store->append('{');
-    $this->store->append('switch (true)');
     $this->store->append('{');
     $first = true;
     foreach ($agents as $agent)
     {
       if (!$first) $this->store->append('');
+      $isThrowable = ($this->importing->simplyFullyQualifiedName($agent['type'])==='\Throwable');
 
-      $this->store->append(sprintf("case is_a(\$exception, %s::class):",
-                                   $this->importing->simplyFullyQualifiedName($agent['type'])));
-      $this->store->append(sprintf('/** @var %s $exception */',
-                                   $this->importing->simplyFullyQualifiedName($agent['type'])));
+      if (!$isThrowable)
+      {
+        $this->store->append(sprintf("if (is_a(\$exception, %s::class))",
+                                     $this->importing->simplyFullyQualifiedName($agent['type'])));
+        $this->store->append('{');
+        $this->store->append(sprintf('/** @var %s $exception */',
+                                     $this->importing->simplyFullyQualifiedName($agent['type'])));
+      }
+
       $this->store->append(sprintf("\$handler = new %s(\$this);",
                                    $this->importing->simplyFullyQualifiedName($agent['class'])));
-      $this->store->append(sprintf('$handler->%s($exception);', $agent['method']));
-      $this->store->append('break;');
+      $this->store->append('');
+      $this->store->append(sprintf('return $handler->%s($exception);', $agent['method']));
+
+      if (!$isThrowable)
+      {
+        $this->store->append('}');
+      }
 
       $first = false;
     }
-    $this->store->append('}');
     $this->store->append('}');
     $this->store->append('');
   }

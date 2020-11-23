@@ -5,6 +5,7 @@ namespace Plaisio\ExceptionHandler;
 
 use Plaisio\PlaisioObject;
 use Plaisio\Response\InternalServerErrorResponse;
+use Plaisio\Response\Response;
 
 /**
  * An agent that handles \Throwable exceptions.
@@ -17,12 +18,14 @@ class ThrowableAgent extends PlaisioObject
    *
    * @param \Throwable $throwable The throwable.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleConstructException(\Throwable $throwable): void
+  public function handleConstructException(\Throwable $throwable): Response
   {
-    $this->handleException($throwable);
+    return $this->handleException($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -31,14 +34,27 @@ class ThrowableAgent extends PlaisioObject
    *
    * @param \Throwable $throwable The throwable.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleFinalizeException(\Throwable $throwable): void
+  public function handleFinalizeException(\Throwable $throwable): Response
   {
-    $this->nub->DL->rollback();
+    // Try to rollback the database transaction.
+    try
+    {
+      $this->nub->DL->rollback();
+    }
+    catch (\Throwable $exception)
+    {
+      // Nothing to do.
+    }
 
     $this->nub->errorLogger->logError($throwable);
+
+    // Set the HTTP status to 500 (Internal Server Error).
+    return new InternalServerErrorResponse();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -47,12 +63,14 @@ class ThrowableAgent extends PlaisioObject
    *
    * @param \Throwable $throwable The throwable.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handlePrepareException(\Throwable $throwable): void
+  public function handlePrepareException(\Throwable $throwable): Response
   {
-    $this->handleException($throwable);
+    return $this->handleException($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -61,33 +79,38 @@ class ThrowableAgent extends PlaisioObject
    *
    * @param \Throwable $throwable The throwable.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleResponseException(\Throwable $throwable): void
+  public function handleResponseException(\Throwable $throwable): Response
   {
-    $this->handleException($throwable);
+    return $this->handleException($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Handles a Throwable.
    *
+   * @return Response
+   *
    * @param \Throwable $throwable The throwable.
    */
-  private function handleException(\Throwable $throwable): void
+  private function handleException(\Throwable $throwable): Response
   {
     $this->nub->DL->rollback();
 
     // Set the HTTP status to 500 (Internal Server Error).
     $response = new InternalServerErrorResponse();
-    $response->send();
 
     // Log the Internal Server Error
     $this->nub->requestLogger->logRequest($response->getStatus());
     $this->nub->DL->commit();
 
     $this->nub->errorLogger->logError($throwable);
+
+    return $response;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

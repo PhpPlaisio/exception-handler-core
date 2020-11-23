@@ -17,6 +17,7 @@ use Plaisio\ExceptionHandler\ResultExceptionAgent;
 use Plaisio\ExceptionHandler\ThrowableAgent;
 use Plaisio\Obfuscator\Exception\DecodeException;
 use Plaisio\PlaisioObject;
+use Plaisio\Response\Response;
 use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
@@ -28,148 +29,156 @@ class Foo extends PlaisioObject implements ExceptionHandler
   /**
    * @inheritdoc
    */
-  public function handlePrepareException(\Throwable $exception): void
+  public function handlePrepareException(\Throwable $exception): Response
   {
-    switch (true)
+    if (is_a($exception, BadRequestException::class))
     {
-      case is_a($exception, BadRequestException::class):
-        /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent($this);
-        $handler->handlePrepareException($exception);
-        break;
+      /** @var BadRequestException $exception */
+      $handler = new BadRequestExceptionAgent($this);
 
-      case is_a($exception, DecodeException::class):
-        /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent($this);
-        $handler->handlePrepareException($exception);
-        break;
-
-      case is_a($exception, InvalidUrlException::class):
-        /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent($this);
-        $handler->handlePrepareException($exception);
-        break;
-
-      case is_a($exception, NotAuthorizedException::class):
-        /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent($this);
-        $handler->handlePrepareException($exception);
-        break;
-
-      case is_a($exception, \Throwable::class):
-        /** @var \Throwable $exception */
-        $handler = new ThrowableAgent($this);
-        $handler->handlePrepareException($exception);
-        break;
+      return $handler->handlePrepareException($exception);
     }
+
+    if (is_a($exception, DecodeException::class))
+    {
+      /** @var DecodeException $exception */
+      $handler = new DecodeExceptionAgent($this);
+
+      return $handler->handlePrepareException($exception);
+    }
+
+    if (is_a($exception, InvalidUrlException::class))
+    {
+      /** @var InvalidUrlException $exception */
+      $handler = new InvalidUrlExceptionAgent($this);
+
+      return $handler->handlePrepareException($exception);
+    }
+
+    if (is_a($exception, NotAuthorizedException::class))
+    {
+      /** @var NotAuthorizedException $exception */
+      $handler = new NotAuthorizedExceptionAgent($this);
+
+      return $handler->handlePrepareException($exception);
+    }
+
+    $handler = new ThrowableAgent($this);
+
+    return $handler->handlePrepareException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  public function handleConstructException(\Throwable $exception): void
+  public function handleConstructException(\Throwable $exception): Response
   {
-    switch (true)
+    if (is_a($exception, BadRequestException::class))
     {
-      case is_a($exception, BadRequestException::class):
-        /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent($this);
-        $handler->handleConstructException($exception);
-        break;
+      /** @var BadRequestException $exception */
+      $handler = new BadRequestExceptionAgent($this);
 
-      case is_a($exception, DecodeException::class):
-        /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent($this);
-        $handler->handleConstructException($exception);
-        break;
-
-      case is_a($exception, InvalidUrlException::class):
-        /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent($this);
-        $handler->handleConstructException($exception);
-        break;
-
-      case is_a($exception, NotAuthorizedException::class):
-        /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent($this);
-        $handler->handleConstructException($exception);
-        break;
-
-      case is_a($exception, ResultException::class):
-        /** @var ResultException $exception */
-        $handler = new ResultExceptionAgent($this);
-        $handler->handleConstructException($exception);
-        break;
-
-      case is_a($exception, \Throwable::class):
-        /** @var \Throwable $exception */
-        $handler = new ThrowableAgent($this);
-        $handler->handleConstructException($exception);
-        break;
+      return $handler->handleConstructException($exception);
     }
+
+    if (is_a($exception, DecodeException::class))
+    {
+      /** @var DecodeException $exception */
+      $handler = new DecodeExceptionAgent($this);
+
+      return $handler->handleConstructException($exception);
+    }
+
+    if (is_a($exception, InvalidUrlException::class))
+    {
+      /** @var InvalidUrlException $exception */
+      $handler = new InvalidUrlExceptionAgent($this);
+
+      return $handler->handleConstructException($exception);
+    }
+
+    if (is_a($exception, NotAuthorizedException::class))
+    {
+      /** @var NotAuthorizedException $exception */
+      $handler = new NotAuthorizedExceptionAgent($this);
+
+      return $handler->handleConstructException($exception);
+    }
+
+    if (is_a($exception, ResultException::class))
+    {
+      /** @var ResultException $exception */
+      $handler = new ResultExceptionAgent($this);
+
+      return $handler->handleConstructException($exception);
+    }
+
+    $handler = new ThrowableAgent($this);
+
+    return $handler->handleConstructException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  public function handleResponseException(\Throwable $exception): void
+  public function handleResponseException(\Throwable $exception): Response
   {
-    switch (true)
+    if (is_a($exception, BadRequestException::class))
     {
-      case is_a($exception, BadRequestException::class):
-        /** @var BadRequestException $exception */
-        $handler = new BadRequestExceptionAgent($this);
-        $handler->handleResponseException($exception);
-        break;
+      /** @var BadRequestException $exception */
+      $handler = new BadRequestExceptionAgent($this);
 
-      case is_a($exception, DecodeException::class):
-        /** @var DecodeException $exception */
-        $handler = new DecodeExceptionAgent($this);
-        $handler->handleResponseException($exception);
-        break;
-
-      case is_a($exception, InvalidUrlException::class):
-        /** @var InvalidUrlException $exception */
-        $handler = new InvalidUrlExceptionAgent($this);
-        $handler->handleResponseException($exception);
-        break;
-
-      case is_a($exception, NotAuthorizedException::class):
-        /** @var NotAuthorizedException $exception */
-        $handler = new NotAuthorizedExceptionAgent($this);
-        $handler->handleResponseException($exception);
-        break;
-
-      case is_a($exception, NotPreferredUrlException::class):
-        /** @var NotPreferredUrlException $exception */
-        $handler = new NotPreferredUrlExceptionAgent($this);
-        $handler->handleResponseException($exception);
-        break;
-
-      case is_a($exception, \Throwable::class):
-        /** @var \Throwable $exception */
-        $handler = new ThrowableAgent($this);
-        $handler->handleResponseException($exception);
-        break;
+      return $handler->handleResponseException($exception);
     }
+
+    if (is_a($exception, DecodeException::class))
+    {
+      /** @var DecodeException $exception */
+      $handler = new DecodeExceptionAgent($this);
+
+      return $handler->handleResponseException($exception);
+    }
+
+    if (is_a($exception, InvalidUrlException::class))
+    {
+      /** @var InvalidUrlException $exception */
+      $handler = new InvalidUrlExceptionAgent($this);
+
+      return $handler->handleResponseException($exception);
+    }
+
+    if (is_a($exception, NotAuthorizedException::class))
+    {
+      /** @var NotAuthorizedException $exception */
+      $handler = new NotAuthorizedExceptionAgent($this);
+
+      return $handler->handleResponseException($exception);
+    }
+
+    if (is_a($exception, NotPreferredUrlException::class))
+    {
+      /** @var NotPreferredUrlException $exception */
+      $handler = new NotPreferredUrlExceptionAgent($this);
+
+      return $handler->handleResponseException($exception);
+    }
+
+    $handler = new ThrowableAgent($this);
+
+    return $handler->handleResponseException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  public function handleFinalizeException(\Throwable $exception): void
+  public function handleFinalizeException(\Throwable $exception): Response
   {
-    switch (true)
-    {
-      case is_a($exception, \Throwable::class):
-        /** @var \Throwable $exception */
-        $handler = new ThrowableAgent($this);
-        $handler->handleFinalizeException($exception);
-        break;
-    }
+    $handler = new ThrowableAgent($this);
+
+    return $handler->handleFinalizeException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

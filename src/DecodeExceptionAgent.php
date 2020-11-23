@@ -6,6 +6,7 @@ namespace Plaisio\ExceptionHandler;
 use Plaisio\Obfuscator\Exception\DecodeException;
 use Plaisio\PlaisioObject;
 use Plaisio\Response\BadRequestResponse;
+use Plaisio\Response\Response;
 
 /**
  * An agent that handles DecodeException exceptions.
@@ -18,12 +19,14 @@ class DecodeExceptionAgent extends PlaisioObject
    *
    * @param DecodeException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.2.0
    * @api
    */
-  public function handleConstructException(DecodeException $exception): void
+  public function handleConstructException(DecodeException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -32,12 +35,14 @@ class DecodeExceptionAgent extends PlaisioObject
    *
    * @param DecodeException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.2.0
    * @api
    */
-  public function handlePrepareException(DecodeException $exception): void
+  public function handlePrepareException(DecodeException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -46,12 +51,14 @@ class DecodeExceptionAgent extends PlaisioObject
    *
    * @param DecodeException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.2.0
    * @api
    */
-  public function handleResponseException(DecodeException $exception): void
+  public function handleResponseException(DecodeException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -59,14 +66,15 @@ class DecodeExceptionAgent extends PlaisioObject
    * Handles a DecodeException.
    *
    * @param DecodeException $exception The exception.
+   *
+   * @return Response
    */
-  private function handleException(DecodeException $exception): void
+  private function handleException(DecodeException $exception): Response
   {
     $this->nub->DL->rollback();
 
     // Set the HTTP status to 400 (Bad Request).
     $response = new BadRequestResponse();
-    $response->send();
 
     // Log the bad request.
     $this->nub->requestLogger->logRequest($response->getStatus());
@@ -77,6 +85,8 @@ class DecodeExceptionAgent extends PlaisioObject
     {
       $this->nub->errorLogger->logError($exception);
     }
+
+    return $response;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

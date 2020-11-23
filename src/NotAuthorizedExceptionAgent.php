@@ -6,6 +6,7 @@ namespace Plaisio\ExceptionHandler;
 use Plaisio\Exception\NotAuthorizedException;
 use Plaisio\PlaisioObject;
 use Plaisio\Response\NotFoundResponse;
+use Plaisio\Response\Response;
 use Plaisio\Response\SeeOtherResponse;
 
 /**
@@ -19,12 +20,14 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
    *
    * @param NotAuthorizedException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleConstructException(NotAuthorizedException $exception): void
+  public function handleConstructException(NotAuthorizedException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -33,12 +36,14 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
    *
    * @param NotAuthorizedException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handlePrepareException(NotAuthorizedException $exception): void
+  public function handlePrepareException(NotAuthorizedException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -47,12 +52,14 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
    *
    * @param NotAuthorizedException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleResponseException(NotAuthorizedException $exception): void
+  public function handleResponseException(NotAuthorizedException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -60,8 +67,10 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
    * Handles a NotAuthorizedException.
    *
    * @param NotAuthorizedException $exception The exception.
+   *
+   * @return Response
    */
-  private function handleException(NotAuthorizedException $exception): void
+  private function handleException(NotAuthorizedException $exception): Response
   {
     $this->nub->DL->rollback();
 
@@ -80,7 +89,6 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
 
       // Set the HTTP status to 404 (Not Found).
       $response = new NotFoundResponse();
-      $response->send();
 
       // Only on development environment log the error.
       if ($this->nub->request->isEnvDev())
@@ -92,6 +100,8 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
     // Log the not authorized request.
     $this->nub->requestLogger->logRequest($response->getStatus());
     $this->nub->DL->commit();
+
+    return $response;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

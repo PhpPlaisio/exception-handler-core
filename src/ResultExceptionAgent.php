@@ -5,6 +5,7 @@ namespace Plaisio\ExceptionHandler;
 
 use Plaisio\PlaisioObject;
 use Plaisio\Response\NotFoundResponse;
+use Plaisio\Response\Response;
 use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
@@ -18,16 +19,17 @@ class ResultExceptionAgent extends PlaisioObject
    *
    * @param ResultException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleConstructException(ResultException $exception): void
+  public function handleConstructException(ResultException $exception): Response
   {
     $this->nub->DL->rollback();
 
     // Set the HTTP status to 404 (Not Found).
     $response = new NotFoundResponse();
-    $response->send();
 
     // Log the invalid URL request.
     $this->nub->requestLogger->logRequest($response->getStatus());
@@ -38,6 +40,8 @@ class ResultExceptionAgent extends PlaisioObject
     {
       $this->nub->errorLogger->logError($exception);
     }
+
+    return $response;
   }
 
   //--------------------------------------------------------------------------------------------------------------------

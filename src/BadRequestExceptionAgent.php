@@ -6,6 +6,7 @@ namespace Plaisio\ExceptionHandler;
 use Plaisio\Exception\BadRequestException;
 use Plaisio\PlaisioObject;
 use Plaisio\Response\BadRequestResponse;
+use Plaisio\Response\Response;
 
 /**
  * An agent that handles BadRequestException exceptions.
@@ -18,12 +19,14 @@ class BadRequestExceptionAgent extends PlaisioObject
    *
    * @param BadRequestException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleConstructException(BadRequestException $exception): void
+  public function handleConstructException(BadRequestException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -32,12 +35,14 @@ class BadRequestExceptionAgent extends PlaisioObject
    *
    * @param BadRequestException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handlePrepareException(BadRequestException $exception): void
+  public function handlePrepareException(BadRequestException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -46,12 +51,14 @@ class BadRequestExceptionAgent extends PlaisioObject
    *
    * @param BadRequestException $exception The exception.
    *
+   * @return Response
+   *
    * @since 1.0.0
    * @api
    */
-  public function handleResponseException(BadRequestException $exception): void
+  public function handleResponseException(BadRequestException $exception): Response
   {
-    $this->handleException($exception);
+    return $this->handleException($exception);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -59,14 +66,15 @@ class BadRequestExceptionAgent extends PlaisioObject
    * Handles a BadRequestException.
    *
    * @param BadRequestException $exception The exception.
+   *
+   * @return Response
    */
-  private function handleException(BadRequestException $exception): void
+  private function handleException(BadRequestException $exception): Response
   {
     $this->nub->DL->rollback();
 
     // Set the HTTP status to 400 (Bad Request).
     $response = new BadRequestResponse();
-    $response->send();
 
     // Log the bad request.
     $this->nub->requestLogger->logRequest($response->getStatus());
@@ -77,6 +85,8 @@ class BadRequestExceptionAgent extends PlaisioObject
     {
       $this->nub->errorLogger->logError($exception);
     }
+
+    return $response;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
