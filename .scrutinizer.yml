@@ -16,9 +16,10 @@ build:
         override:
           - php-scrutinizer-run
 
-  tests:
-    override:
-      - command: './bin/phing unit'
-        coverage:
-          file:   'test/coverage.xml'
-          format: 'php-clover'
+    coverage:
+      tests:
+        override:
+          - command: './bin/phing unit'
+            coverage:
+              file:   'test/coverage.xml'
+              format: 'php-clover'
