@@ -10,7 +10,6 @@
     "php": ">=7.3",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "composer/composer": "^1.0",
     "plaisio/console": "^2.0.1",
     "plaisio/error-logger": "^1.2",
     "plaisio/exception": "^1.1",
