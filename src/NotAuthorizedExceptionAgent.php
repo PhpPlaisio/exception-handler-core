@@ -81,7 +81,6 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
       // Redirect the user agent to the login page. After the user has successfully logged on the user agent will be
       // redirected to currently requested URL.
       $response = new SeeOtherResponse($this->nub->getLoginUrl($this->nub->request->getRequestUri()));
-      $response->send();
     }
     else
     {
