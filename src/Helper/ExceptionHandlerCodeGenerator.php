@@ -20,14 +20,14 @@ class ExceptionHandlerCodeGenerator
    *
    * @var Importing
    */
-  private $importing;
+  private Importing $importing;
 
   /**
    * The PHP code store.
    *
    * @var PhpCodeStore
    */
-  private $store;
+  private PhpCodeStore $store;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

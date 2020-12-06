@@ -17,24 +17,24 @@ class ExceptionHandlerMetadataExtractor
    *
    * @var int
    */
-  private $errorCount = 0;
+  private int $errorCount = 0;
 
   /**
    * The output decorator.
    *
    * @var PlaisioStyle
    */
-  private $io;
+  private PlaisioStyle $io;
 
   /**
    * The names of the exceptions handlers.
    *
    * @var array
    */
-  private $names = ['handlePrepareException',
-                    'handleConstructException',
-                    'handleResponseException',
-                    'handleFinalizeException'];
+  private array $names = ['handlePrepareException',
+                          'handleConstructException',
+                          'handleResponseException',
+                          'handleFinalizeException'];
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
