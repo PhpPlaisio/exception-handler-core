@@ -16,7 +16,7 @@
     "plaisio/exception-handler": "^2.0",
     "plaisio/kernel": "^3.1.1",
     "plaisio/obfuscator": "^2.0",
-    "plaisio/request": "^0.12.1",
+    "plaisio/request": "^0.13.0",
     "plaisio/request-logger": "^1.2",
     "plaisio/response-core": "^2.0",
     "plaisio/session": "^4.0",
