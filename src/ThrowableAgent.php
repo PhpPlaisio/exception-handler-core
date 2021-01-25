@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler;
 
+use Plaisio\Helper\OB;
 use Plaisio\PlaisioObject;
+use Plaisio\Response\BaseResponse;
+use Plaisio\Response\HtmlResponse;
 use Plaisio\Response\InternalServerErrorResponse;
 use Plaisio\Response\Response;
 
@@ -41,20 +44,16 @@ class ThrowableAgent extends PlaisioObject
    */
   public function handleFinalizeException(\Throwable $throwable): Response
   {
-    // Try to rollback the database transaction.
     try
     {
       $this->nub->DL->rollback();
     }
-    catch (\Throwable $exception)
+    catch (\Throwable $e)
     {
       // Nothing to do.
     }
 
-    $this->nub->errorLogger->logError($throwable);
-
-    // Set the HTTP status to 500 (Internal Server Error).
-    return new InternalServerErrorResponse();
+    return $this->errorLoggerResponse($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -91,26 +90,61 @@ class ThrowableAgent extends PlaisioObject
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles a Throwable.
-   *
-   * @return Response
+   * Tries to log the error and returns the appropriate response object.
    *
    * @param \Throwable $throwable The throwable.
+   *
+   * @return HtmlResponse|InternalServerErrorResponse
+   */
+  private function errorLoggerResponse(\Throwable $throwable): Response
+  {
+    try
+    {
+      $ob = new OB();
+      $this->nub->errorLogger->logError($throwable);
+      $contents = $ob->getClean();
+    }
+    catch (\Throwable $e)
+    {
+      // Nothing to do.
+    }
+
+    if ($this->nub->request->isEnvDev() && isset($contents) && $contents!=='')
+    {
+      $response = new HtmlResponse($contents);
+      $response->setStatus(BaseResponse::STATUS_CODE_INTERNAL_SERVER_ERROR);
+    }
+    else
+    {
+      $response = new InternalServerErrorResponse();
+    }
+
+    return $response;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Handles a Throwable.
+   *
+   * @param \Throwable $throwable The throwable.
+   *
+   * @return Response
    */
   private function handleException(\Throwable $throwable): Response
   {
-    $this->nub->DL->rollback();
+    try
+    {
+      $this->nub->DL->rollback();
 
-    // Set the HTTP status to 500 (Internal Server Error).
-    $response = new InternalServerErrorResponse();
+      $this->nub->requestLogger->logRequest(BaseResponse::STATUS_CODE_INTERNAL_SERVER_ERROR);
+      $this->nub->DL->commit();
+    }
+    catch (\Throwable $e)
+    {
+      // Noting to do.
+    }
 
-    // Log the Internal Server Error
-    $this->nub->requestLogger->logRequest($response->getStatus());
-    $this->nub->DL->commit();
-
-    $this->nub->errorLogger->logError($throwable);
-
-    return $response;
+    return $this->errorLoggerResponse($throwable);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
