@@ -165,18 +165,25 @@ class ExceptionHandlerMetadataExtractor
     $arguments = $reflectionMethod->getParameters();
     $argument  = $arguments[0];
 
-    $class = $argument->getClass();
-    if ($class===null)
+    $type = $argument->getType();
+    if ($type===null || !is_a($type, \ReflectionNamedType::class))
     {
       return null;
     }
 
-    if (!$class->isSubclassOf('Throwable') && $class->getName()!=='Throwable')
+    $class = $type->getName();
+    if (is_callable($class))
     {
       return null;
     }
 
-    return $class->getName();
+    $reflectionType = new \ReflectionClass($class);
+    if (!$reflectionType->isSubclassOf('Throwable') && $reflectionType->getName()!=='Throwable')
+    {
+      return null;
+    }
+
+    return $reflectionType->getName();
   }
 
   //--------------------------------------------------------------------------------------------------------------------
