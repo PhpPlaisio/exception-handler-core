@@ -30,7 +30,6 @@ class ExceptionHandlerCodeGenerator
   private PhpCodeStore $store;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    */
