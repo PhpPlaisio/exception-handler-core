@@ -1,3 +1,0 @@
-<commands>
-    <command name="plaisio:generate-core-exception-handler">\Plaisio\ExceptionHandler\Command\GenerateExceptionHandlerCommand</command>
-</commands>

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler\Helper;
 
-use Plaisio\Console\Helper\PlaisioXmlUtility;
+use Plaisio\Console\Helper\PlaisioXmlPathHelper;
 use Plaisio\Console\Style\PlaisioStyle;
 
 /**
@@ -37,6 +37,7 @@ class ExceptionHandlerMetadataExtractor
                           'handleFinalizeException'];
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * ExceptionHandlerMetadataExtractor constructor.
    *
@@ -198,7 +199,7 @@ class ExceptionHandlerMetadataExtractor
   {
     foreach ($this->names as $name)
     {
-      if (substr($method, 0, strlen($name))==$name)
+      if (str_starts_with($method, $name))
       {
         return $name;
       }
@@ -215,9 +216,9 @@ class ExceptionHandlerMetadataExtractor
    */
   private function readExceptionAgents(): array
   {
-    $helper = new PlaisioXmlHelper(PlaisioXmlUtility::plaisioXmlPath('exception'));
+    $helper = new PlaisioXmlQueryHelper(PlaisioXmlPathHelper::plaisioXmlPath('exception'));
 
-    return $helper->extractExceptionAgents();
+    return $helper->queryExceptionAgents();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

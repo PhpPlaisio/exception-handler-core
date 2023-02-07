@@ -15,7 +15,7 @@ class GenerateExceptionHandlerCoreTest extends TestCase
   //--------------------------------------------------------------------------------------------------------------------
   public function testExecute(): void
   {
-    putenv(sprintf('%s=%s', 'PLAISIO_CONFIG_DIR', __DIR__));
+    copy('test/Command/plaisio-exception.xml', 'plaisio-exception.xml');
 
     $application = new PlaisioApplication();
     $application->setAutoExit(false);
@@ -26,6 +26,8 @@ class GenerateExceptionHandlerCoreTest extends TestCase
     self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay());
 
     self::assertFileEquals('test/Command/Foo.txt', 'test/Command/Foo.php');
+
+    unlink('plaisio-exception.xml');
   }
 
   //--------------------------------------------------------------------------------------------------------------------

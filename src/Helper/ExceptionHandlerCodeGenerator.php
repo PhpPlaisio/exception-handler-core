@@ -30,6 +30,7 @@ class ExceptionHandlerCodeGenerator
   private PhpCodeStore $store;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Object constructor.
    */
@@ -117,7 +118,7 @@ class ExceptionHandlerCodeGenerator
    * @param string  $method The name of the method.
    * @param array[] $agents The metadata of the exception agents.
    */
-  private function generateMethod(string $method, array $agents)
+  private function generateMethod(string $method, array $agents): void
   {
     $this->store->appendSeparator();
     $this->store->append('/**');

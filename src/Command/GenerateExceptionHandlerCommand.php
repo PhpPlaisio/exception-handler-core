@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Plaisio\ExceptionHandler\Command;
 
 use Plaisio\Console\Command\PlaisioCommand;
-use Plaisio\Console\Helper\PlaisioXmlUtility;
+use Plaisio\Console\Helper\PlaisioXmlPathHelper;
 use Plaisio\Console\Helper\TwoPhaseWrite;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerCodeGenerator;
 use Plaisio\ExceptionHandler\Helper\ExceptionHandlerMetadataExtractor;
-use Plaisio\ExceptionHandler\Helper\PlaisioXmlHelper;
+use Plaisio\ExceptionHandler\Helper\PlaisioXmlQueryHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,14 +31,14 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
   /**
    * @inheritdoc
    */
-  protected function execute(InputInterface $input, OutputInterface $output)
+  protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $this->io->title('Plaisio: Generate Core Exception Handler');
 
     $metadataExtractor = new ExceptionHandlerMetadataExtractor($this->io);
     $handlers          = $metadataExtractor->extractExceptionAgents();
 
-    $xmlHelper = new PlaisioXmlHelper(PlaisioXmlUtility::plaisioXmlPath('exception'));
+    $xmlHelper = new PlaisioXmlQueryHelper(PlaisioXmlPathHelper::plaisioXmlPath('exception'));
     [$class, $path] = $xmlHelper->queryExceptionHandlerClass();
 
     $generator = new ExceptionHandlerCodeGenerator();

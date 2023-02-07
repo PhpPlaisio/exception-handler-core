@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Plaisio\ExceptionHandler\Helper;
 
-use Plaisio\Console\Helper\PlaisioXmlHelper as BasePlaisioXmlHelper;
-
 /**
  * Helper class for retrieving information about plaisio.xml files.
  */
-class PlaisioXmlHelper extends BasePlaisioXmlHelper
+class PlaisioXmlQueryHelper extends \Plaisio\Console\Helper\PlaisioXmlQueryHelper
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -16,7 +14,7 @@ class PlaisioXmlHelper extends BasePlaisioXmlHelper
    *
    * @return string[]
    */
-  public function extractExceptionAgents(): array
+  public function queryExceptionAgents(): array
   {
     $classes = [];
 
