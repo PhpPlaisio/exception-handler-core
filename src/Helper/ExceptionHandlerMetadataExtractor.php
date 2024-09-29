@@ -189,7 +189,7 @@ class ExceptionHandlerMetadataExtractor
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the basename of a method if the and only if the method is an exception handler.
+   * Returns the basename of a method if and only if the method is an exception handler.
    *
    * @param string $method The name of the method.
    *

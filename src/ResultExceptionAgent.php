@@ -36,7 +36,7 @@ class ResultExceptionAgent extends PlaisioObject
     $this->nub->DL->commit();
 
     // On a development environment log the exception.
-    if ($this->nub->request->isEnvDev())
+    if ($this->nub->request->isEnvDev)
     {
       $this->nub->errorLogger->logError($exception);
     }

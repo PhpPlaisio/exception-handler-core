@@ -21,7 +21,7 @@ class GenerateExceptionHandlerCommand extends PlaisioCommand
   /**
    * @inheritdoc
    */
-  protected function configure()
+  protected function configure(): void
   {
     $this->setName('plaisio:generate-core-exception-handler')
          ->setDescription('Generates the code for the core\'s exception handler');

@@ -80,17 +80,17 @@ class NotAuthorizedExceptionAgent extends PlaisioObject
 
       // Redirect the user agent to the login page. After the user has successfully logged on the user agent will be
       // redirected to currently requested URL.
-      $response = new SeeOtherResponse($this->nub->getLoginUrl($this->nub->request->getRequestUri()));
+      $response = new SeeOtherResponse($this->nub->getLoginUrl($this->nub->request->requestUri));
     }
     else
     {
-      // The user is logged on and the user has requested an URL for which the user has no authorization.
+      // The user is logged on and the user has requested a URL for which the user has no authorization.
 
       // Set the HTTP status to 404 (Not Found).
       $response = new NotFoundResponse();
 
       // Only on development environment log the error.
-      if ($this->nub->request->isEnvDev())
+      if ($this->nub->request->isEnvDev)
       {
         $this->nub->errorLogger->logError($exception);
       }

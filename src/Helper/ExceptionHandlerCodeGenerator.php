@@ -176,7 +176,7 @@ class ExceptionHandlerCodeGenerator
    */
   private function importClasses(array $allAgents): void
   {
-    foreach ($allAgents as $name => $agents)
+    foreach ($allAgents as $agents)
     {
       foreach ($agents as $agent)
       {

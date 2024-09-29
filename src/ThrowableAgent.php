@@ -48,7 +48,7 @@ class ThrowableAgent extends PlaisioObject
     {
       $this->nub->DL->rollback();
     }
-    catch (\Throwable $e)
+    catch (\Throwable)
     {
       // Nothing to do.
     }
@@ -93,8 +93,6 @@ class ThrowableAgent extends PlaisioObject
    * Tries to log the error and returns the appropriate response object.
    *
    * @param \Throwable $throwable The throwable.
-   *
-   * @return HtmlResponse|InternalServerErrorResponse
    */
   private function errorLoggerResponse(\Throwable $throwable): Response
   {
@@ -104,12 +102,12 @@ class ThrowableAgent extends PlaisioObject
       $this->nub->errorLogger->logError($throwable);
       $contents = $ob->getClean();
     }
-    catch (\Throwable $e)
+    catch (\Throwable)
     {
       // Nothing to do.
     }
 
-    if ($this->nub->request->isEnvDev() && isset($contents) && $contents!=='')
+    if ($this->nub->request->isEnvDev && isset($contents) && $contents!=='')
     {
       $response = new HtmlResponse($contents);
       $response->setStatus(BaseResponse::STATUS_CODE_INTERNAL_SERVER_ERROR);
@@ -139,7 +137,7 @@ class ThrowableAgent extends PlaisioObject
       $this->nub->requestLogger->logRequest(BaseResponse::STATUS_CODE_INTERNAL_SERVER_ERROR);
       $this->nub->DL->commit();
     }
-    catch (\Throwable $e)
+    catch (\Throwable)
     {
       // Noting to do.
     }

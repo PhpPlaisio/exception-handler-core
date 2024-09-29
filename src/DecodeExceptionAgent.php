@@ -31,7 +31,7 @@ class DecodeExceptionAgent extends PlaisioObject
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Handles a DecodeException thrown thrown during the preparation phase.
+   * Handles a DecodeException thrown during the preparation phase.
    *
    * @param DecodeException $exception The exception.
    *
@@ -81,7 +81,7 @@ class DecodeExceptionAgent extends PlaisioObject
     $this->nub->DL->commit();
 
     // Only on development environment log the error.
-    if ($this->nub->request->isEnvDev())
+    if ($this->nub->request->isEnvDev)
     {
       $this->nub->errorLogger->logError($exception);
     }

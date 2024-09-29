@@ -81,7 +81,7 @@ class InvalidUrlExceptionAgent extends PlaisioObject
     $this->nub->DL->commit();
 
     // Only on development environment log the error.
-    if ($this->nub->request->isEnvDev())
+    if ($this->nub->request->isEnvDev)
     {
       $this->nub->errorLogger->logError($exception);
     }
