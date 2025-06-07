@@ -22,7 +22,7 @@
     "plaisio/session": "^5.0.0",
     "setbased/helper-code-store-php": "^2.6.0",
     "setbased/php-stratum-middle": "^5.11.0",
-    "symfony/console": "^6.2.5"
+    "symfony/console": "^6.0|^7.0"
   },
   "require-dev": {
     "phing/phing": "^3.0.0",
