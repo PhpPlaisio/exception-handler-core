@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Stratum\Test\Application;
+namespace Plaisio\ExceptionHandler\Test\Command;
 
 use PHPUnit\Framework\TestCase;
 use Plaisio\Console\Application\PlaisioApplication;

@@ -1,5 +1,5 @@
 <exception>
-    <class>\SetBased\Stratum\Test\Application\Foo</class>
+    <class>\Plaisio\ExceptionHandler\Test\Command\Foo</class>
     <path>test/Command/Foo.php</path>
     <agents>
         <agent>\Plaisio\ExceptionHandler\BadRequestExceptionAgent</agent>

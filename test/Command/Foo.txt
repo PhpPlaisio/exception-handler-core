@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SetBased\Stratum\Test\Application;
+namespace Plaisio\ExceptionHandler\Test\Command;
 
 use Plaisio\Exception\BadRequestException;
 use Plaisio\Exception\InvalidUrlException;
